@@ -1,0 +1,11 @@
+<div id="datetime">{{ current_time }}</div> </footer>
+<form action="{{ url_for('users_page') }}" method="post"> <table>
+<tr> <th>Name:</th> <td>
+<input type="text" name="name" required autofocus /> </td>
+</tr> <tr>
+<th>Surname:</th> <td>
+<input type="text" name="surname" size="5" /> </td>
+</tr>
+</table>
+<input value="Save" name="save" type="submit" />
+</form>
