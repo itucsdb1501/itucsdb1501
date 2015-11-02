@@ -18,3 +18,15 @@ class Store:
     def get_teams(self):
         return sorted(self.teams.items())
 
+    def add_user(self, user):
+        self.last_key_user += 1
+        self.users[self.last_key_user] = user
+
+    def delete_user(self, key_user):
+        del self.users[key_user]
+
+    def get_user(self, key_user):
+        return self.users[key_user]
+
+    def get_users(self):
+        return sorted(self.users.items())
