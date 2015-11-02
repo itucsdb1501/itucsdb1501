@@ -1,4 +1,7 @@
-<div id="datetime">{{ current_time }}</div> </footer>
+{% extends "layout.html" %}
+{% block name %}User Edit Form{% endblock %}
+{% block content %}
+
 <form action="{{ url_for('users_page') }}" method="post"> <table>
 <tr> <th>Name:</th> <td>
 <input type="text" name="name" required autofocus /> </td>
@@ -9,3 +12,4 @@
 </table>
 <input value="Save" name="save" type="submit" />
 </form>
+{% endblock %}

@@ -2,14 +2,16 @@
 <html>
   <head>
 <meta charset="utf-8" />
-<title>TeamsDB - {% block title %}{% endblock %}</title> <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<title>TeamsDB and UsersDB - {% block title %}{% endblock %}</title> <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
   <body>
 <header>
       <nav>
      <li><a href="{{ url_for('home_page') }}">Home</a></li>
      <li><a href="{{ url_for('teams_page') }}">List Teams</a></li>
+     <li><a href="{{ url_for('users_page') }}">List Users</a></li>
      <li><a href="{{ url_for('team_edit_page') }}">Add Team</a></li>
+     <li><a href="{{ url_for('user_edit_page') }}">Add User</a></li>
      </nav>
 </header>
     {% block content %}{% endblock %}

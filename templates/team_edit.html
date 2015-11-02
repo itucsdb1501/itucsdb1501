@@ -1,8 +1,10 @@
-
+{% extends "layout.html" %}
+{% block country %}Team Edit Form{% endblock %}
+{% block content %}
 
 <form action="{{ url_for('teams_page') }}" method="post"> <table>
 <tr> <th>Country:</th> <td>
-<input type="text" name="conutry" required autofocus /> </td>
+<input type="text" name="country" required autofocus /> </td>
 </tr> <tr>
 <th>Continent:</th> <td>
 <input type="text" name="continent" required autofocus /> </td>
@@ -10,3 +12,4 @@
 </table>
 <input value="Save" name="save" type="submit" />
 </form>
+{% endblock %}

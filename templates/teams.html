@@ -2,15 +2,18 @@
 <html>
   <head>
 <meta charset="utf-8" />
-
+{% extends "layout.html" %}
+{% block team %}Team List{% endblock %}
+{% block content %}
 <h2>Team List</h2>
 <form action="{{ url_for('teams_page') }}" method="post"> <table>
-{% for key, team in teams %}
+{% for key_team, team in teams %}
 <tr>
-<td><input type="checkbox" name="teams_to_delete" value="{{ key }}" /></td>
-<td> <a href="{{ url_for('team_page', key=key) }}">
-              {{ team.country }} ({{ team.continent }}) </a> </td>
+<td><input type="checkbox" name="teams_to_delete" value="{{ key_team }}" /></td>
+<td> <a href="{{ url_for('team_page', key_team=key_team) }}">
+              {{ team.country }} - {{ team.continent }} </a> </td>
 </tr>
 {% endfor %}
 </table>
 <input type="submit" value="Delete" name="delete" /> </form>
+{% endblock %}
