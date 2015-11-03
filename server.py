@@ -101,7 +101,7 @@ def fixtures_page():
     else:
       team1 = request.form['team1']
       team2 = request.form['team2']
-      fixture = Fixture(Team1, Team2)
+      fixture = Fixture(team1, team2)
       app.store.add_fixture(fixture)
       return redirect(url_for('fixture_page', key_fixture=app.store.last_key_fixture))
 
@@ -119,13 +119,14 @@ def fixture_page(key_fixture):
     fixture = app.store.get_fixture(key_fixture)
     return render_template('fixture.html', fixture=fixture,
                            current_time=now.ctime())
-    
+
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
     app.store = Store()
     app.store.add_user(User('burak', 'balta'))
     app.store.add_team(Team('TURKEY',"Europe"))
     app.store.add_team(Team('BRAZIL',"America"))
+    app.store.add_fixture(Fixture('Usa',"Uk"))
 
     if VCAP_APP_PORT is not None:
         port, debug = int(VCAP_APP_PORT), False
