@@ -7,11 +7,8 @@ from flask import request
 from flask import url_for
 
 from team import Team
-
 from store import Store
-
 from user import User
-
 from fixture import Fixture
 
 app = Flask(__name__)

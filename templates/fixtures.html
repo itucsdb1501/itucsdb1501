@@ -6,7 +6,7 @@
 {% block team1 %}Fixture List{% endblock %}
 {% block team2 %}
 <h2>Fixture List</h2>
-<form action="{{ url_for('fixture_page') }}" method="post"> <table>
+<form action="{{ url_for('fixtures_page') }}" method="post"> <table>
         {% for key_fixture, fixture in fixtures %}
 <tr>
 <td><input type="checkbox" name="fixtures_to_delete" value="{{ key_fixture }}" /></td>

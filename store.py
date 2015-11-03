@@ -20,7 +20,6 @@ class Store:
     def get_teams(self):
         return sorted(self.teams.items())
 
-
     def add_fixture(self, fixture):
         self.last_key_fixture += 1
         self.fixtures[self.last_key_fixture] = fixture
