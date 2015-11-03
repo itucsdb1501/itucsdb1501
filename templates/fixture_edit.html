@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block name %}Fixture Edit Form{% endblock %}
+{% block content %}
+
+<form action="{{ url_for('fixtures_page') }}" method="post"> <table>
+<tr> <th>Team1:</th> <td>
+<input type="text" name="team1" required autofocus /> </td>
+</tr> <tr>
+<th>Team2:</th> <td>
+<input type="text" name="team2" size="5" /> </td>
+</tr>
+</table>
+<input value="Save" name="save" type="submit" />
+</form>
+{% endblock %}

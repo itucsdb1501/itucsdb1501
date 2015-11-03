@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta charset="utf-8" />
+{% extends "layout.html" %}
+{% block name %}Fixture List{% endblock %}
+{% block content %}
+<h2>Fixture List</h2>
+<form action="{{ url_for('fixture_page') }}" method="post"> <table>
+        {% for key_fixture, fixture in fixtures %}
+<tr>
+<td><input type="checkbox" name="fixtures_to_delete" value="{{ key_fixture }}" /></td>
+<td> <a href="{{ url_for('fixture_page', key_fixture=key_fixture) }}">
+              {{ fixture.team1 }}  {{ fixture.team2 }} </a> </td>
+</tr>
+{% endfor %}
+</table>
+<input type="submit" value="Delete" name="delete" /> </form>
+{% endblock %}

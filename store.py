@@ -2,8 +2,10 @@ class Store:
     def __init__(self):
         self.teams = {}
         self.users = {}
+        self.fixtures = {}
         self.last_key_team = 0
         self.last_key_user = 0
+        self.last_key_fixture = 0
 
     def add_team(self, team):
         self.last_key_team += 1
@@ -18,15 +20,16 @@ class Store:
     def get_teams(self):
         return sorted(self.teams.items())
 
-    def add_user(self, user):
-        self.last_key_user += 1
-        self.users[self.last_key_user] = user
+    
+    def add_fixture(self, fixture):
+        self.last_key_fixture += 1
+        self.fixtures[self.last_key_fixture] = fixture
 
-    def delete_user(self, key_user):
-        del self.users[key_user]
+    def delete_fixture(self, key_fixture):
+        del self.fixtures[key_fixture]
 
-    def get_user(self, key_user):
-        return self.users[key_user]
+    def get_fixture(self, key_fixture):
+        return self.fixtures[key_fixture]
 
-    def get_users(self):
-        return sorted(self.users.items())
+    def get_fixtures(self):
+        return sorted(self.fixtures.items())

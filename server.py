@@ -10,9 +10,9 @@ from team import Team
 
 from store import Store
 
-
-
 from user import User
+
+from fixture import Fixture
 
 app = Flask(__name__)
 
@@ -55,9 +55,6 @@ def user_page(key_user):
     return render_template('user.html', user=user,
                            current_time=now.ctime())
 
-
-
-
 @app.route('/teams', methods=['GET', 'POST'])
 def teams_page():
     if request.method == 'GET':
@@ -90,7 +87,39 @@ def team_page(key_team):
     return render_template('team.html', team=team,
                            current_time=now.ctime())
 
+@app.route('/fixtures', methods=['GET', 'POST'])
+def fixtures_page():
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        fixtures = app.store.get_fixtures()
+        return render_template('fixtures.html', fixtures=fixtures, current_time=now.ctime())
+    elif 'fixtures_to_delete' in request.form:
+        key_fixtures = request.form.getlist('fixtures_to_delete')
+        for key_fixture in key_fixtures:
+            app.store.delete_fixture(int(key_fixture))
+        return redirect(url_for('fixtures_page'))
+    else:
+      team1 = request.form['team1']
+      team2 = request.form['team2']
+      fixture = Fixture(Team1, Team2)
+      app.store.add_fixture(fixture)
+      return redirect(url_for('fixture_page', key_fixture=app.store.last_key_fixture))
 
+
+@app.route('/fixtures/add')
+def fixture_edit_page():
+    now = datetime.datetime.now()
+    return render_template('fixture_edit.html', current_time=now.ctime())
+
+
+
+@app.route('/fixture/<int:key_fixture>')
+def fixture_page(key_fixture):
+    now = datetime.datetime.now()
+    fixture = app.store.get_fixture(key_fixture)
+    return render_template('fixture.html', fixture=fixture,
+                           current_time=now.ctime())
+    
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
     app.store = Store()
