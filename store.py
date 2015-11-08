@@ -3,9 +3,11 @@ class Store:
         self.teams = {}
         self.users = {}
         self.fixtures = {}
+        self.anthems = {}
         self.last_key_team = 0
         self.last_key_user = 0
         self.last_key_fixture = 0
+        self.last_key_anthem = 0
 
     def add_team(self, team):
         self.last_key_team += 1
@@ -19,6 +21,24 @@ class Store:
 
     def get_teams(self):
         return sorted(self.teams.items())
+    
+    
+    def add_anthem(self, anthem):
+        self.last_key_anthem += 1
+        self.anthems[self.last_key_anthem] = anthem
+
+    def delete_anthem(self, key_anthem):
+        del self.anthems[key_anthem]
+
+    def get_anthem(self, key_anthem):
+        return self.anthems[key_anthem]
+
+    def get_anthems(self):
+        return sorted(self.anthems.items())
+    
+    
+    
+    
 
     def add_fixture(self, fixture):
         self.last_key_fixture += 1

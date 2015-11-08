@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta charset="utf-8" />
+{% extends "layout.html" %}
+{% block team %}Anthem{% endblock %}
+{% block content %}
+<h2>{{ anthem.country }}</h2> <table>
+<tr> <th>Anthem:</th>
+<td>{{ anthem.name }}</td><td>({{ anthem.country }})</td>  </tr>
+</table>
+{% endblock %}

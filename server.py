@@ -10,6 +10,7 @@ from team import Team
 from store import Store
 from user import User
 from fixture import Fixture
+from anthem import Anthem
 
 app = Flask(__name__)
 
@@ -116,6 +117,51 @@ def fixture_page(key_fixture):
     fixture = app.store.get_fixture(key_fixture)
     return render_template('fixture.html', fixture=fixture,
                            current_time=now.ctime())
+    
+    
+    
+    
+    
+@app.route('/anthems', methods=['GET', 'POST'])
+def anthems_page():
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        anthems = app.store.get_anthems()
+        return render_template('anthems.html', anthems=anthems, current_time=now.ctime())
+    elif 'anthems_to_delete' in request.form:
+        key_anthems = request.form.getlist('anthems_to_delete')
+        for key_anthem in key_anthems:
+            app.store.delete_anthem(int(key_anthem))
+        return redirect(url_for('anthems_page'))
+    else:
+      country = request.form['country']
+      name = request.form['name']
+      anthem = Anthem(country, name)
+      app.store.add_anthem(anthem)
+      return redirect(url_for('anthem_page', key_anthem=app.store.last_key_anthem))
+
+
+@app.route('/anthems/add')
+def anthem_edit_page():
+    now = datetime.datetime.now()
+    return render_template('anthem_edit.html', current_time=now.ctime())
+
+
+@app.route('/anthem/<int:key_anthem>')
+def anthem_page(key_anthem):
+    now = datetime.datetime.now()
+    anthem = app.store.get_anthem(key_anthem)
+    return render_template('anthem.html', anthem=anthem,
+                           current_time=now.ctime())    
+    
+    
+    
+    
+    
+
+
+
+
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
@@ -124,7 +170,8 @@ if __name__ == '__main__':
     app.store.add_team(Team('TURKEY',"Europe"))
     app.store.add_team(Team('BRAZIL',"America"))
     app.store.add_fixture(Fixture('Usa',"Uk"))
-
+    app.store.add_anthem(Anthem('Turkey',"Istiklal Marsi"))
+    
     if VCAP_APP_PORT is not None:
         port, debug = int(VCAP_APP_PORT), False
     else:
