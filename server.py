@@ -14,6 +14,16 @@ from anthem import Anthem
 
 app = Flask(__name__)
 
+def get_elephantsql_dsn(vcap_services):
+    """Returns the data source name for ElephantSQL."""
+    parsed = json.loads(vcap_services)
+    uri = parsed["elephantsql"][0]["credentials"]["uri"]
+    match = re.match('postgres://(.*?):(.*?)@(.*?)(:(\d+))?/(.*)', uri)
+    user, password, host, _, port, dbname = match.groups()
+    dsn = """user='{}' password='{}' host='{}' port={}
+             dbname='{}'""".format(user, password, host, port, dbname)
+    return dsn
+
 
 @app.route('/')
 def home_page():
@@ -117,11 +127,11 @@ def fixture_page(key_fixture):
     fixture = app.store.get_fixture(key_fixture)
     return render_template('fixture.html', fixture=fixture,
                            current_time=now.ctime())
-    
-    
-    
-    
-    
+
+
+
+
+
 @app.route('/anthems', methods=['GET', 'POST'])
 def anthems_page():
     if request.method == 'GET':
@@ -152,15 +162,7 @@ def anthem_page(key_anthem):
     now = datetime.datetime.now()
     anthem = app.store.get_anthem(key_anthem)
     return render_template('anthem.html', anthem=anthem,
-                           current_time=now.ctime())    
-    
-    
-    
-    
-    
-
-
-
+                           current_time=now.ctime())
 
 
 if __name__ == '__main__':
@@ -171,11 +173,19 @@ if __name__ == '__main__':
     app.store.add_team(Team('BRAZIL',"America"))
     app.store.add_fixture(Fixture('Usa',"Uk"))
     app.store.add_anthem(Anthem('Turkey',"Istiklal Marsi"))
-    
+
     if VCAP_APP_PORT is not None:
         port, debug = int(VCAP_APP_PORT), False
     else:
         port, debug = 5000, True
+
+    VCAP_SERVICES = os.getenv('VCAP_SERVICES')
+    if VCAP_SERVICES is not None:
+        app.config['dsn'] = get_elephantsql_dsn(VCAP_SERVICES)
+    else:
+        app.config['dsn'] = """user='vagrant' password='vagrant'
+                               host='localhost' port=54321 dbname='itucsdb'"""
+
     app.run(host='0.0.0.0', port=port, debug=debug)
 
 
