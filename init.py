@@ -60,8 +60,27 @@ class INIT:
            cursor.execute("INSERT INTO users (user,password) VALUES ('Deneme','BirKi')")
            connection.commit()
 
-    def All(self):
+    def news(self):
+       with dbapi2.connect(self.cp) as connection:
+           cursor = connection.cursor()
+           query = "DROP TABLE IF EXISTS news CASCADE"
+           cursor.execute(query)
 
+           query = """CREATE TABLE news (
+                   id SERIAL PRIMARY KEY,
+                   title VARCHAR(40) UNIQUE NOT NULL
+                   content  VARCHAR(40) UNIQUE NOT NULL
+               )"""
+           cursor.execute(query)
+
+           cursor.execute("INSERT INTO news (title,content) VALUES ('Spain','Europa')")
+           cursor.execute("INSERT INTO news (title,content) VALUES ('TUrkey','Europa')")
+           cursor.execute("INSERT INTO news (title,content) VALUES ('China','Asia')")
+           connection.commit()
+
+    def All(self):
+        self.news()
+        self.athletes()
         self.teams()
         self.users()
 

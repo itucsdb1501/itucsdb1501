@@ -44,6 +44,46 @@ def home_page():
 
 #-------------------------------------------BURAK BALTA  User START---------------------------------
 
+@app.route('/Users', methods=['GET', 'POST'])
+def user_page():
+    uses = Users(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        uselist = uses.get_userlist()
+        return render_template('teams.html', UserList = uselist, current_time=now.ctime())
+    elif 'users_to_delete' in request.form:
+        ids = request.form.getlist('users_to_delete')
+        for id in ids:
+            uses.delete_user(id)
+        return redirect(url_for('user_page'))
+    elif 'users_to_add' in request.form:
+        uses.add_user(request.form['user'],request.form['password'])
+        return redirect(url_for('user_page'))
+    elif 'users_to_update' in request.form:
+        uses.update_user(request.form['id'], request.form['user'],request.form['password'])
+        return redirect(url_for('user_page'))
+
+#--------------------------------------------BURAK BALTA News Start-------------------------------
+@app.route('/News', methods=['GET', 'POST'])
+def new_page():
+    nes = News(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        neslist = nes.get_newlist()
+        return render_template('news.html', NewList = neslist, current_time=now.ctime())
+    elif 'news_to_delete' in request.form:
+        ids = request.form.getlist('news_to_delete')
+        for id in ids:
+            nes.delete_new(id)
+        return redirect(url_for('new_page'))
+    elif 'news_to_add' in request.form:
+        nes.add_new(request.form['title'],request.form['content'])
+        return redirect(url_for('new_page'))
+    elif 'news_to_update' in request.form:
+        nes.update_new(request.form['id'], request.form['title'],request.form['content'])
+        return redirect(url_for('new_page'))
+
+
 
 #--------------------------------------------BURAK BALTA FNİSHED--------------------------------------
 
@@ -212,7 +252,8 @@ def counter_page():
  #alper
 
 
-
+'''
+projeyinin calismasini engelledigi icin comment out ettik
 @app.route('/deneme')
 def counter_page():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -223,7 +264,7 @@ def counter_page():
 
         isim=cursor.fetchone()[0]
         return "%s" %isim
-
+'''
 
 #alper
 
