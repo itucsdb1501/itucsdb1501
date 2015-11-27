@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta charset="utf-8" />
+
+{% extends "layout.html" %}
+
+{% block title %} Competitions {% endblock %}
+
+{% block content %}
+  <h3> Competition List </h3>
+  <form action="{{ url_for('competition_page') }}" method="post">
+    <table>
+    	<tr>
+    		<th>Delete</th>
+    		<th>Competition ID</th>
+    		<th>Competition Name</th>
+    	</tr>
+
+    	{% for id, team1 in CompetitionList %}
+    	<tr>
+    		<td><input type="checkbox" name="competitions_to_delete" value="{{ id }}" /></td>
+    		<td>{{ id }}</td>
+    		<td>{{ team1 }}</td>
+    		<td>{{ team2 }}</td>
+    	</tr>
+    	{% endfor %}
+
+    </table>
+    <input type="submit" value="Delete Checked Values" name="Delete" />
+  </form>
+  </br>
+  <form action="{{ url_for('competition_page') }}" method="post">
+    <table>
+      <tr>
+        <th>team1:</th>
+        <td><input type="text" name="team1" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>team2:</th>
+        <td><input type="text" name="team2" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Add Competition" name="competitions_to_add"/>
+  </form>
+  </br>
+  <form action="{{ url_for('competition_page') }}" method="post">
+    <table>
+      <tr>
+        <th>Competition ID:</th>
+        <td><input type="text" team1="id" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New team1:</th>
+        <td><input type="text" name="team1" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New team2:</th>
+        <td><input type="text" name="team2" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Update Competition" name="competitions_to_update"/>
+  </form>
+{% endblock %}

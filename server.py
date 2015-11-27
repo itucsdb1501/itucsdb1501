@@ -14,7 +14,9 @@ from flask.helpers import url_for
 from teams import Teams
 from store import Store
 from users import Users
-from fixture import Fixture
+from fixtures import Fixtures
+from competitions import Competitions
+from tickets import Tickets
 from anthem import Anthem
 
 from init import INIT
@@ -131,43 +133,74 @@ def athlet_page():
 
 #------------------------------------------SAMET SECTION FNISHED----------------------------------
 
-@app.route('/fixtures', methods=['GET', 'POST'])
-def fixtures_page():
+
+#---------------------------ELIF tickets START------------------------------
+
+
+@app.route('/Tickets', methods=['GET', 'POST'])
+def ticket_page():
+    ticks = Tickets(app.config['dsn'])
     if request.method == 'GET':
         now = datetime.datetime.now()
-        fixtures = app.store.get_fixtures()
-        return render_template('fixtures.html', fixtures=fixtures, current_time=now.ctime())
+        ticklist = ticks.get_ticketlist()
+        return render_template('tickets.html', TicketList = ticklist, current_time=now.ctime())
+    elif 'tickets_to_delete' in request.form:
+        ids = request.form.getlist('tickets_to_delete')
+        for id in ids:
+            ticks.delete_ticket(id)
+        return redirect(url_for('ticket_page'))
+    elif 'tickets_to_add' in request.form:
+        ticks.add_ticket(request.form['name'],request.form['surname'])
+        return redirect(url_for('ticket_page'))
+    elif 'tickets_to_update' in request.form:
+        ticks.update_ticket(request.form['id'], request.form['name'],request.form['surname'])
+        return redirect(url_for('ticket_page'))
+
+
+#---------------------------ELIF competitions START------------------------------
+
+@app.route('/Competitions', methods=['GET', 'POST'])
+def competition_page():
+    coms = Competitions(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        comlist = coms.get_competitionlist()
+        return render_template('tickets.html', CompetitionList = comlist, current_time=now.ctime())
+    elif 'competitions_to_delete' in request.form:
+        ids = request.form.getlist('competitions_to_delete')
+        for id in ids:
+            coms.delete_competition(id)
+        return redirect(url_for('competition_page'))
+    elif 'competitions_to_add' in request.form:
+        coms.add_competition(request.form['team1'],request.form['team2'])
+        return redirect(url_for('competition_page'))
+    elif 'competitions_to_update' in request.form:
+        coms.update_competition(request.form['id'], request.form['team1'],request.form['team2'])
+        return redirect(url_for('competition_page'))
+
+
+#---------------------------ELIF fixtures START------------------------------
+
+@app.route('/Fixtures', methods=['GET', 'POST'])
+def fixture_page():
+    fixs = Fixtures(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        fixlist = fixs.get_fixturelist()
+        return render_template('fixtures.html', FixtureList = fixlist, current_time=now.ctime())
     elif 'fixtures_to_delete' in request.form:
-        key_fixtures = request.form.getlist('fixtures_to_delete')
-        for key_fixture in key_fixtures:
-            app.store.delete_fixture(int(key_fixture))
-        return redirect(url_for('fixtures_page'))
-    else:
-      team1 = request.form['team1']
-      team2 = request.form['team2']
-      fixture = Fixture(team1, team2)
-      app.store.add_fixture(fixture)
-      return redirect(url_for('fixture_page', key_fixture=app.store.last_key_fixture))
+        ids = request.form.getlist('fixtures_to_delete')
+        for id in ids:
+            fixs.delete_fixture(id)
+        return redirect(url_for('fixture_page'))
+    elif 'fixtures_to_add' in request.form:
+        fixs.add_fixture(request.form['week'])
+        return redirect(url_for('fixture_page'))
+    elif 'fixtures_to_update' in request.form:
+        fixs.update_fixture(request.form['id'], request.form['week'])
+        return redirect(url_for('fixture_page'))
 
-
-@app.route('/fixtures/add')
-def fixture_edit_page():
-    now = datetime.datetime.now()
-    return render_template('fixture_edit.html', current_time=now.ctime())
-
-
-
-@app.route('/fixture/<int:key_fixture>')
-def fixture_page(key_fixture):
-    now = datetime.datetime.now()
-    fixture = app.store.get_fixture(key_fixture)
-    return render_template('fixture.html', fixture=fixture,
-                           current_time=now.ctime())
-
-
-
-
-
+#---------------------------ELIF FINISH------------------------------
 
 
 #alper
@@ -189,7 +222,6 @@ def anthems_page():
       anthem = Anthem(country, name)
       app.store.add_anthem(anthem)
       return redirect(url_for('anthem_page', key_anthem=app.store.last_key_anthem))
-
 
 @app.route('/anthems/add')
 def anthem_edit_page():
@@ -251,9 +283,8 @@ def counter_page():
 
  #alper
 
+''' KOdun çalışmasını engelledğinden dolayı kapattık
 
-'''
-projeyinin calismasini engelledigi icin comment out ettik
 @app.route('/deneme')
 def counter_page():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -264,11 +295,10 @@ def counter_page():
 
         isim=cursor.fetchone()[0]
         return "%s" %isim
-'''
 
 #alper
 
-
+'''
 
 @app.route('/initdb')
 def init_db():

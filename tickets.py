@@ -1,39 +1,39 @@
 import psycopg2 as dbapi2
 
-class Teams:
+class Tickets:
 
     def __init__(self, cp):
         self.cp = cp
         return
 
-    def get_teamlist(self):
+    def get_ticketlist(self):
         with dbapi2.connect(self.cp) as connection:
             cursor = connection.cursor()
-            query = "SELECT * FROM teams"
+            query = "SELECT * FROM tickets"
             cursor.execute(query)
             rows = cursor.fetchall()
             return rows
 
-    def delete_team(self, id):
+    def delete_ticket(self, id):
         with dbapi2.connect(self.cp) as connection:
             cursor = connection.cursor()
-            query = "DELETE FROM teams WHERE id = '%s'" % (id)
+            query = "DELETE FROM tickets WHERE id = '%s'" % (id)
             cursor.execute(query)
             connection.commit()
             return
 
-    def add_team(self, country,continent):
+    def add_ticket(self, name, surname):
         with dbapi2.connect(self.cp) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO teams (country,continent) VALUES ('%s')" % (country,continent)
+            query = "INSERT INTO tickets (name,surname) VALUES ('%s')" % (name,surname)
             cursor.execute(query)
             connection.commit()
             return
 
-    def update_team(self, id, country,continent):
+    def update_ticket(self, id, name, surname):
         with dbapi2.connect(self.cp) as connection:
             cursor = connection.cursor()
-            query = "UPDATE teams SET country = '%s', continent='%s' WHERE id = '%s'" % (country, continent, id)
+            query = "UPDATE tickets SET name = '%s', surname='%s' WHERE id = '%s'" % (name, surname, id)
             cursor.execute(query)
             connection.commit()
             return

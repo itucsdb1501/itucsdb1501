@@ -2,18 +2,54 @@
 <html>
   <head>
 <meta charset="utf-8" />
+
 {% extends "layout.html" %}
-{% block team1 %}Fixture List{% endblock %}
-{% block team2 %}
-<h2>Fixture List</h2>
-<form action="{{ url_for('fixtures_page') }}" method="post"> <table>
-        {% for key_fixture, fixture in fixtures %}
-<tr>
-<td><input type="checkbox" name="fixtures_to_delete" value="{{ key_fixture }}" /></td>
-<td> <a href="{{ url_for('fixture_page', key_fixture=key_fixture) }}">
-              {{ fixture.team1 }}  {{ fixture.team2 }} </a> </td>
-</tr>
-{% endfor %}
-</table>
-<input type="submit" value="Delete" name="delete" /> </form>
+
+{% block title %} Fixtures {% endblock %}
+
+{% block content %}
+  <h3> Fixture List </h3>
+  <form action="{{ url_for('fixture_page') }}" method="post">
+    <table>
+    	<tr>
+    		<th>Delete</th>
+    		<th>Fixture ID</th>
+    		<th>Fixture Week</th>
+    	</tr>
+
+    	{% for id, week in FixtureList %}
+    	<tr>
+    		<td><input type="checkbox" name="fixtures_to_delete" value="{{ id }}" /></td>
+    		<td>{{ id }}</td>
+    		<td>{{ week }}</td>
+    	</tr>
+    	{% endfor %}
+
+    </table>
+    <input type="submit" value="Delete Checked Values" name="Delete" />
+  </form>
+  </br>
+  <form action="{{ url_for('fixture_page') }}" method="post">
+    <table>
+      <tr>
+        <th>week:</th>
+        <td><input type="text" name="week" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Add Fixture" name="fixtures_to_add"/>
+  </form>
+  </br>
+  <form action="{{ url_for('fixture_page') }}" method="post">
+    <table>
+      <tr>
+        <th>Fixture ID:</th>
+        <td><input type="text" week="id" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New week:</th>
+        <td><input type="text" name="week" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Update Fixture" name="fixtures_to_update"/>
+  </form>
 {% endblock %}

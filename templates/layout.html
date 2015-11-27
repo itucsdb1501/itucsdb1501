@@ -31,13 +31,28 @@
           </ul>
         </div>
 
+        <div id = "window">
+          <span>Elif Aklan</span>
+          <ul>
+            <li><a href="{{ url_for('ticket_page') }}">tickets(Add,Delete,Update)</a></li>
+          </ul>
+          <ul>
+            <li><a href="{{ url_for('fixture_page') }}">fixtures(Add,Delete,Update)</a></li>
+          </ul>
+          <ul>
+            <li><a href="{{ url_for('competition_page') }}">competitions(Add,Delete,Update)</a></li>
+          </ul>
+        </div>
 
-     	<li><a href="{{ url_for('fixtures_page') }}">List Fixtures</a></li>
-     	<li><a href="{{ url_for('anthems_page') }}">List Anthems</a></li>
+         <div id = "window">
+          <span>Alper Çakıroğlu</span>
+          <ul>
+            <li><a href="{{ url_for('anthems_page') }}">List Anthems</a></li>
+          </ul>
+          <ul>
+            <li><a href="{{ url_for('anthem_edit_page') }}">Add Anthem</a></li>
 
-
-     	<li><a href="{{ url_for('fixture_edit_page') }}">Add Fixture</a></li>
-     	<li><a href="{{ url_for('anthem_edit_page') }}">Add Anthem</a></li>
+        </div>
 
     </nav>
 </header>

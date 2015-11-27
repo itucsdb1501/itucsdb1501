@@ -78,10 +78,69 @@ class INIT:
            cursor.execute("INSERT INTO news (title,content) VALUES ('China','Asia')")
            connection.commit()
 
+    def tickets(self):
+       with dbapi2.connect(self.cp) as connection:
+           cursor = connection.cursor()
+           query = "DROP TABLE IF EXISTS tickets CASCADE"
+           cursor.execute(query)
+
+           query = """CREATE TABLE tickets (
+                   id SERIAL PRIMARY KEY,
+                   name VARCHAR(40) UNIQUE NOT NULL
+                   surname  VARCHAR(40) UNIQUE NOT NULL
+               )"""
+           cursor.execute(query)
+
+           cursor.execute("INSERT INTO tickets (name,surname) VALUES ('elif','aklan')")
+           cursor.execute("INSERT INTO tickets (name,surname) VALUES ('xyz','abc')")
+           cursor.execute("INSERT INTO tickets (name,surname) VALUES ('ch','xy')")
+           connection.commit()
+
+    def competitions(self):
+       with dbapi2.connect(self.cp) as connection:
+           cursor = connection.cursor()
+           query = "DROP TABLE IF EXISTS competitions CASCADE"
+           cursor.execute(query)
+
+           query = """CREATE TABLE competitions (
+                   id SERIAL PRIMARY KEY,
+                   team1 VARCHAR(40) UNIQUE NOT NULL
+                   team2  VARCHAR(40) UNIQUE NOT NULL
+               )"""
+           cursor.execute(query)
+
+           cursor.execute("INSERT INTO competitions (team1,team2) VALUES ('elif','aklan')")
+           cursor.execute("INSERT INTO competitions (team1,team2) VALUES ('xyz','abc')")
+           cursor.execute("INSERT INTO competitions (team1,team2) VALUES ('ch','xy')")
+           connection.commit()
+
+
+    def fixtures(self):
+       with dbapi2.connect(self.cp) as connection:
+           cursor = connection.cursor()
+           query = "DROP TABLE IF EXISTS fixtures CASCADE"
+           cursor.execute(query)
+
+           query = """CREATE TABLE fixtures (
+                   id SERIAL PRIMARY KEY,
+                   week VARCHAR(40) UNIQUE NOT NULL
+
+               )"""
+           cursor.execute(query)
+
+           cursor.execute("INSERT INTO fixtures (week) VALUES ('elif')")
+           cursor.execute("INSERT INTO fixtures (week) VALUES ('elif')")
+           cursor.execute("INSERT INTO fixtures (week)VALUES ('aklan')")
+           connection.commit()
+
     def All(self):
         self.news()
         self.athletes()
         self.teams()
         self.users()
+        self.fixtures()
+        self.competitions()
+        self.tickets()
+
 
 
