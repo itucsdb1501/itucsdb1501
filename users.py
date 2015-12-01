@@ -7,12 +7,12 @@ class Users:
         return
 
     def get_userlist(self):
-        with dbapi2.connect(self.cp) as connection:
-            cursor = connection.cursor()
-            query = "SELECT * FROM users"
-            cursor.execute(query)
-            rows = cursor.fetchall()
-            return rows
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "SELECT * FROM users"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        return rows
 
     def delete_user(self, id):
         with dbapi2.connect(self.cp) as connection:

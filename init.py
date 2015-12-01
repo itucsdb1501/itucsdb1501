@@ -43,22 +43,20 @@ class INIT:
            connection.commit()
 
     def users(self):
-       with dbapi2.connect(self.cp) as connection:
-           cursor = connection.cursor()
-           query = "DROP TABLE IF EXISTS users CASCADE"
-           cursor.execute(query)
+       connection = dbapi2.connect(self.cp)
+       cursor = connection.cursor()
+       query = "DROP TABLE IF EXISTS users CASCADE"
+       cursor.execute(query)
 
-           query = """CREATE TABLE users (
-                   id SERIAL PRIMARY KEY,
-                   user VARCHAR(40) UNIQUE NOT NULL
-                   password  VARCHAR(40) UNIQUE NOT NULL
-               )"""
-           cursor.execute(query)
+       query = """CREATE TABLE users (
+               id SERIAL PRIMARY KEY
+           )"""
+       cursor.execute(query)
 
-           cursor.execute("INSERT INTO users (user,password) VALUES ('Samet','Ayaltı')")
-           cursor.execute("INSERT INTO users (user,password) VALUES ('BUrak','Balta')")
-           cursor.execute("INSERT INTO users (user,password) VALUES ('Deneme','BirKi')")
-           connection.commit()
+#        cursor.execute("INSERT INTO users (user,password) VALUES ('Samet','Ayaltı')")
+#        cursor.execute("INSERT INTO users (user,password) VALUES ('BUrak','Balta')")
+#        cursor.execute("INSERT INTO users (user,password) VALUES ('Deneme','BirKi')")
+       connection.commit()
 
     def news(self):
        with dbapi2.connect(self.cp) as connection:
@@ -134,13 +132,13 @@ class INIT:
            connection.commit()
 
     def All(self):
-        self.news()
-        self.athletes()
-        self.teams()
+#         self.news()
+#         self.athletes()
+#         self.teams()
         self.users()
-        self.fixtures()
-        self.competitions()
-        self.tickets()
+#         self.fixtures()
+#         self.competitions()
+#         self.tickets()
 
 
 

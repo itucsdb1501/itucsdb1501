@@ -237,7 +237,7 @@ def anthem_page(key_anthem):
                            current_time=now.ctime())
 
 
-@app.route('/initdb')
+@app.route('/bla')
 def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor=connection.cursor()
