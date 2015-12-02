@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-<meta charset="utf-8" />
 
 {% extends "layout.html" %}
 
@@ -17,7 +13,7 @@
     		<th>Athlet Name</th>
     	</tr>
 
-    	{% for id, name in TeamList %}
+    	{% for id, name in AthletList %}
     	<tr>
     		<td><input type="checkbox" name="athletes_to_delete" value="{{ id }}" /></td>
     		<td>{{ id }}</td>

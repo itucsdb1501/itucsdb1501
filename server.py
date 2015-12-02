@@ -12,6 +12,7 @@ from flask import request
 from flask.helpers import url_for
 
 from teams import Teams
+from athletes import Athletes
 from store import Store
 from users import Users
 from fixtures import Fixtures
@@ -104,11 +105,16 @@ def team_page():
             tems.delete_team(id)
         return redirect(url_for('team_page'))
     elif 'teams_to_add' in request.form:
-        tems.add_team(request.form['country'],request.form['continent'])
+        tems.add_team(request.form['country'], request.form['continent'])
         return redirect(url_for('team_page'))
     elif 'teams_to_update' in request.form:
-        tems.update_team(request.form['id'], request.form['country'],request.form['continent'])
+        tems.update_team(request.form['id'], request.form['country'], request.form['continent'])
         return redirect(url_for('team_page'))
+    elif 'teams_to_search' in request.form:
+            searchList = tems.search_team(request.form['name']);
+            now = datetime.datetime.now()
+            temlist = tems.get_teamlist()
+            return render_template('teams.html', TeamList = temlist, SearchList = searchList, current_time=now.ctime())
 
 #------------------------------------------SAMET AYALTI Athletes Start----------
 
@@ -118,16 +124,16 @@ def athlet_page():
     if request.method == 'GET':
         now = datetime.datetime.now()
         athlist = aths.get_athletlist()
-        return render_template('athlets.html', AthletList = athlist, current_time=now.ctime())
-    elif 'athlets_to_delete' in request.form:
-        ids = request.form.getlist('athlets_to_delete')
+        return render_template('athletes.html', AthletList = athlist, current_time=now.ctime())
+    elif 'athletes_to_delete' in request.form:
+        ids = request.form.getlist('athletes_to_delete')
         for id in ids:
             aths.delete_athlet(id)
         return redirect(url_for('athlet_page'))
-    elif 'athlets_to_add' in request.form:
+    elif 'athletes_to_add' in request.form:
         aths.add_athlet(request.form['name'],request.form['surname'])
         return redirect(url_for('athlet_page'))
-    elif 'athlets_to_update' in request.form:
+    elif 'athletes_to_update' in request.form:
         aths.update_athlet(request.form['id'], request.form['name'],request.form['surname'])
         return redirect(url_for('athlet_page'))
 
