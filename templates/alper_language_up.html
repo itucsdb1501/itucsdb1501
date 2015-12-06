@@ -1,7 +1,7 @@
 {% extends "alper.html" %}
- {% block title %}Language Edit Form{% endblock %}
+ {% block title %}Language Update{% endblock %}
  {% block content %}
- <form action="{{ url_for('language_page') }}" method="post">
+ <form action="{{ url_for('language_update') }}" method="post">
  <table>
  <tr>
  	<th>ID:</th><td><input type="text" name="id" required autofocus /></td>
@@ -10,6 +10,6 @@
  	<th>NAME:</th><td><input type="text" name="name"></td>
  </tr>
  </table>
- <input value="Save" name="save" type="submit" />
+ <input value="Update" name="update" type="submit" />
  </form>
  {% endblock %}

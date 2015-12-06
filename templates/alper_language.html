@@ -3,11 +3,19 @@
  {% block content %}
  <h2>Language List</h2>
 
+<form action="{{ url_for('language_page') }}" method="post">
  <table>
  {% for language in languages %}
  <tr>
- <td>{{ language.id }} ({{ language.name }})</td>
+ 	<td><input type="checkbox" name="languages_to_delete" value="{{language.id}}" /></td>
+ <td>
+ <a href="{{ url_for('language_page') }}">{{ language.id }} ({{ language.name }})</a>
+ </td>
  </tr>
  {% endfor %}
  </table>
+ <input type="submit" value="Delete" name="delete" />
+ 
+ </form>
+
  {% endblock %}

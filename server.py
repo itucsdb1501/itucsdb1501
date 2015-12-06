@@ -219,13 +219,28 @@ class islem:
     def add_language(id,name):
           with dbapi2.connect(app.config['dsn']) as connection:
              cursor=connection.cursor()
-             query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
+             #query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
              cursor.execute('INSERT INTO LANGUAGES (ID,NAME) VALUES (%s, %s)',(id, name))
              connection.commit()
              return islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
-
+    def del_language(id):
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor=connection.cursor()
+            cursor.execute('DELETE FROM LANGUAGES WHERE ID=%s',[id])
+            connection.commit()
+    def up_language(id,name):
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor=connection.cursor()
+            cursor.execute('UPDATE LANGUAGES SET NAME=%s WHERE ID=%s',(name,id))
+            connection.commit()
 @app.route('/alper')
 def alper_tablo():
+    return render_template('alper.html')
+
+
+
+@app.route('/olustur')
+def olustur():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor=connection.cursor()
 
@@ -237,13 +252,6 @@ def alper_tablo():
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (4,'RUSCA')")
 
         connection.commit()
-
-        '''cursor.execute("SELECT ID,NAME FROM LANGUAGES")
-        rows=cursor.fetchall()
-        #IDS=[row[0] for row in rows]
-        languages=[language(row[0] ,row[1]) for row in rows]'''
-        '''languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
-    return render_template('alper.html',languages=languages)'''
     return render_template('alper.html')
 
 @app.route('/alper_language')
@@ -256,6 +264,11 @@ def language_page():
     if request.method=='GET':
         languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
         return render_template('alper_language.html',languages=languages)
+    elif 'languages_to_delete' in request.form:
+        values=request.form.getlist('languages_to_delete')
+        for value in values:
+            islem.del_language(value)
+        return redirect(url_for('alper_language'))
     else:
         id=request.form['id']
         name=request.form['name']
@@ -266,9 +279,25 @@ def language_page():
 def alper_language_edit():
     return render_template('alper_language_edit.html')
 
+@app.route('/alper/up',methods=['GET','POST'])
+def language_update():
+    if request.method=='GET':
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+        return render_template('alper_language.html',languages=languages)
+    else:
+        id=request.form['id']
+        name=request.form['name']
+        islem.up_language(id, name)
+        print(id)
+        return redirect(url_for('alper_language'))
+
+@app.route('/alper/update')
+def alper_language_up():
+    return render_template('alper_language_up.html')
+
+
 
  #alper
-
 
 
 @app.route('/initdb')
