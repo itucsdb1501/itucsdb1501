@@ -17,7 +17,7 @@ from users import Users
 from fixtures import Fixtures
 from competitions import Competitions
 from tickets import Tickets
-from anthem import Anthem
+
 
 from init import INIT
 
@@ -204,101 +204,72 @@ def fixture_page():
 
 
 #alper
+class language:
+    def __init__(self,id,name):
+        self.id=id
+        self.name=name
+class islem:
+    def sel_all(tablo,komut):
+         with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             cursor.execute(komut)
+             rows=cursor.fetchall()
+             table=[tablo(row[0] ,row[1]) for row in rows]
+         return table
+    def add_language(id,name):
+          with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
+             cursor.execute('INSERT INTO LANGUAGES (ID,NAME) VALUES (%s, %s)',(id, name))
+             connection.commit()
+             return islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
 
-@app.route('/anthems', methods=['GET', 'POST'])
-def anthems_page():
-    if request.method == 'GET':
-        now = datetime.datetime.now()
-        anthems = app.store.get_anthems()
-        return render_template('anthems.html', anthems=anthems, current_time=now.ctime())
-    elif 'anthems_to_delete' in request.form:
-        key_anthems = request.form.getlist('anthems_to_delete')
-        for key_anthem in key_anthems:
-            app.store.delete_anthem(int(key_anthem))
-        return redirect(url_for('anthems_page'))
-    else:
-      country = request.form['country']
-      name = request.form['name']
-      anthem = Anthem(country, name)
-      app.store.add_anthem(anthem)
-      return redirect(url_for('anthem_page', key_anthem=app.store.last_key_anthem))
-
-@app.route('/anthems/add')
-def anthem_edit_page():
-    now = datetime.datetime.now()
-    return render_template('anthem_edit.html', current_time=now.ctime())
-
-
-@app.route('/anthem/<int:key_anthem>')
-def anthem_page(key_anthem):
-    now = datetime.datetime.now()
-    anthem = app.store.get_anthem(key_anthem)
-    return render_template('anthem.html', anthem=anthem,
-                           current_time=now.ctime())
-
-
-@app.route('/initdb')
-def initialize_database():
+@app.route('/alper')
+def alper_tablo():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor=connection.cursor()
 
-
-        #query="""DROP TABLE IF EXIST ANTHEM"""
-        #cursor.execute(query)
-
-        #
-        query="""CREATE TABLE ANTHEM (id INTEGER,name VARCHAR(15))"""
-        cursor.execute(query)
-        #
-        query="""CREATE TABLE LANGUAGES(id INTEGER,name VARCHAR(15))"""
-        cursor.execute(query)
-        query="""INSERT INTO ANTHEM (id,name) VALUES (0,'Istiklal Marsi')"""
-        cursor.execute(query)
-        query="""INSERT INTO ANTHEM (id,name) VALUES (1,'Deneme')"""
-        cursor.execute(query)
-
-        query="""UPDATE ANTHEM SET id=2 WHERE id=0"""
-        cursor.execute(query)
-
-        query="""DELETE FROM ANTHEM WHERE id=1"""
-        cursor.execute(query)
+        cursor.execute("DROP TABLE IF EXISTS LANGUAGES")
+        cursor.execute("CREATE TABLE LANGUAGES(ID INTEGER,NAME VARCHAR(15))")
+        cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (1,'TURKCE')")
+        cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (2,'INGILIZCE')")
+        cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (3,'ALMANCA')")
+        cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (4,'RUSCA')")
 
         connection.commit()
-    return redirect(url_for('home_page'))
 
-@app.route('/deneme')
-def counter_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor=connection.cursor()
+        '''cursor.execute("SELECT ID,NAME FROM LANGUAGES")
+        rows=cursor.fetchall()
+        #IDS=[row[0] for row in rows]
+        languages=[language(row[0] ,row[1]) for row in rows]'''
+        '''languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+    return render_template('alper.html',languages=languages)'''
+    return render_template('alper.html')
 
+@app.route('/alper_language')
+def alper_language():
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+        return render_template('alper_language.html',languages=languages)
 
+@app.route('/alper',methods=['GET','POST'])
+def language_page():
+    if request.method=='GET':
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+        return render_template('alper_language.html',languages=languages)
+    else:
+        id=request.form['id']
+        name=request.form['name']
+        languages=islem.add_language(int(id),name)
+        return render_template('alper_language.html',languages=languages)
 
-        query="SELECT name FROM ANTHEM"
-        cursor.execute(query)
-
-
-        isim=cursor.fetchone()[0]
-        return "%s" %isim
+@app.route('/alper/add')
+def alper_language_edit():
+    return render_template('alper_language_edit.html')
 
 
  #alper
 
-''' KOdun çalışmasını engelledğinden dolayı kapattık
 
-@app.route('/deneme')
-def counter_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor=connection.cursor()
-
-        query="SELECT name FROM ANTHEM"
-        cursor.execute(query)
-
-        isim=cursor.fetchone()[0]
-        return "%s" %isim
-
-#alper
-
-'''
 
 @app.route('/initdb')
 def init_db():
@@ -320,6 +291,7 @@ if __name__ == '__main__':
     else:
         app.config['dsn'] = """user='vagrant' password='vagrant'
                                host='localhost' port=54321 dbname='itucsdb'"""
+
     app.run(host='0.0.0.0', port=port, debug=debug)
 
 

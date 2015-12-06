@@ -1,0 +1,13 @@
+{% extends "alper.html" %}
+ {% block title %}Language List{% endblock %}
+ {% block content %}
+ <h2>Language List</h2>
+
+ <table>
+ {% for language in languages %}
+ <tr>
+ <td>{{ language.id }} ({{ language.name }})</td>
+ </tr>
+ {% endfor %}
+ </table>
+ {% endblock %}
