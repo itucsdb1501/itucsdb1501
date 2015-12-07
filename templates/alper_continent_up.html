@@ -1,0 +1,21 @@
+{% extends "alper.html" %}
+ {% block title %}Continent Update{% endblock %}
+ {% block content %}
+ <form action="{{ url_for('continent_update') }}" method="post">
+ <table>
+ <tr>
+ 	<th>ID:</th><td><input type="text" name="id" required autofocus /></td>
+ </tr>
+ <tr>
+ 	<th>COUNTRY:</th><td><input type="text" name="country"></td>
+ </tr>
+ <tr>
+ 	<th>CONTINENT:</th><td><input type="text" name="continent"></td>
+ </tr>
+ <tr>
+ 	<th>LANGUAGE:</th><td><input type="text" name="language"></td>
+ </tr>
+ </table>
+ <input value="Update Continent" name="update" type="submit" />
+ </form>
+ {% endblock %}
