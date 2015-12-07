@@ -208,6 +208,11 @@ class language:
     def __init__(self,id,name):
         self.id=id
         self.name=name
+class anthem:
+    def __init__(self,id,name,language):
+        self.id=id
+        self.name=name
+        self.language=language
 class islem:
     def sel_all(tablo,komut):
          with dbapi2.connect(app.config['dsn']) as connection:
@@ -233,37 +238,69 @@ class islem:
             cursor=connection.cursor()
             cursor.execute('UPDATE LANGUAGES SET NAME=%s WHERE ID=%s',(name,id))
             connection.commit()
+    def sel_anthem(tablo,komut):
+        with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             cursor.execute(komut)
+             rows=cursor.fetchall()
+             table=[tablo(row[0] ,row[1],row[2]) for row in rows]
+        return table
+    def del_anthem(id):
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor=connection.cursor()
+            cursor.execute('DELETE FROM ANTHEMS WHERE ID=%s',[id])
+            connection.commit()
+    def add_anthem(id,name,language):
+          with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             #query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
+             cursor.execute('INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (%s, %s,%s)',(id, name,language))
+             connection.commit()
+             return islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS')
+    def up_anthem(id,name,language):
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor=connection.cursor()
+            cursor.execute('UPDATE ANTHEMS SET NAME=%s,LANGUAGE=%s WHERE ID=%s',(name,language,id))
+            connection.commit()
 @app.route('/alper')
 def alper_tablo():
     return render_template('alper.html')
 
 
 
-@app.route('/olustur')
+@app.route('/alper/olustur')
 def olustur():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor=connection.cursor()
 
+        cursor.execute("DROP TABLE IF EXISTS ANTHEMS")
         cursor.execute("DROP TABLE IF EXISTS LANGUAGES")
-        cursor.execute("CREATE TABLE LANGUAGES(ID INTEGER,NAME VARCHAR(15))")
+        cursor.execute("CREATE TABLE LANGUAGES(ID INTEGER UNIQUE PRIMARY KEY,NAME VARCHAR(20) UNIQUE)")
+        cursor.execute("CREATE TABLE ANTHEMS(ID INTEGER UNIQUE PRIMARY KEY,NAME VARCHAR(20),LANGUAGE VARCHAR(20) REFERENCES LANGUAGES(NAME))")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (1,'TURKCE')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (2,'INGILIZCE')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (3,'ALMANCA')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (4,'RUSCA')")
+        cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (1,'ISTIKLAL MARSI','TURKCE')")
+        cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (2,'GOD SAVE THE QUENN','INGILIZCE')")
 
         connection.commit()
     return render_template('alper.html')
 
 @app.route('/alper_language')
 def alper_language():
+    try:
         languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
         return render_template('alper_language.html',languages=languages)
+    except:
+        hata='press create database'
+        return render_template('alper_error.html',hata=hata)
+
 
 @app.route('/alper',methods=['GET','POST'])
 def language_page():
     if request.method=='GET':
-        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
-        return render_template('alper_language.html',languages=languages)
+        return redirect(url_for('alper_language'))
     elif 'languages_to_delete' in request.form:
         values=request.form.getlist('languages_to_delete')
         for value in values:
@@ -272,8 +309,12 @@ def language_page():
     else:
         id=request.form['id']
         name=request.form['name']
-        languages=islem.add_language(int(id),name)
-        return render_template('alper_language.html',languages=languages)
+        try:
+            languages=islem.add_language(int(id),name)
+            return render_template('alper_language.html',languages=languages)
+        except:
+            hata='error in addition(invalid id)'
+            return render_template('alper_error.html',hata=hata)
 
 @app.route('/alper/add')
 def alper_language_edit():
@@ -287,15 +328,68 @@ def language_update():
     else:
         id=request.form['id']
         name=request.form['name']
-        islem.up_language(id, name)
-        print(id)
-        return redirect(url_for('alper_language'))
+        try:
+            islem.up_language(id, name)
+            return redirect(url_for('alper_language'))
+        except:
+            hata='error in update(maybe invalid id)'
+            return render_template('alper_error.html',hata=hata)
 
 @app.route('/alper/update')
 def alper_language_up():
     return render_template('alper_language_up.html')
 
 
+@app.route('/alper/anthemlist')
+def anthem_list():
+    try:
+        anthems=islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS')
+        return render_template('alper_anthem.html',anthems=anthems)
+    except:
+        hata='press create database'
+        return render_template('alper_error.html',hata=hata)
+
+@app.route('/alper/anthem',methods=['GET','POST'])
+def anthem_page():
+    if request.method=='GET':
+        return redirect(url_for('anthem_list'))
+    elif 'anthems_to_delete' in request.form:
+        values=request.form.getlist('anthems_to_delete')
+        for value in values:
+            islem.del_anthem(value)
+        return redirect(url_for('anthem_list'))
+    else:
+        id=request.form['id']
+        name=request.form['name']
+        language=request.form['language']
+        try:
+            languages=islem.add_anthem(id, name, language)
+            return redirect(url_for('anthem_list'))
+        except:
+            hata='Invalid language input(language is foreign key to language table)'
+            return render_template('alper_error.html',hata=hata)
+
+@app.route('/alper/anthem/add')
+def alper_anthem_edit():
+    return render_template('alper_anthem_edit.html')
+
+@app.route('/alper/anthem/update')
+def alper_anthem_up():
+    return render_template('alper_anthem_up.html')
+@app.route('/alper/anthem/update',methods=['GET','POST'])
+def anthem_update():
+    if request.method=='GET':
+        return redirect(url_for('anthem_list'))
+    else:
+        id=request.form['id']
+        name=request.form['name']
+        language=request.form['language']
+        try:
+            islem.up_anthem(id, name,language)
+            return redirect(url_for('anthem_list'))
+        except:
+            hata='Invalid language input(language is foreign key to language table)'
+            return render_template('alper_error.html',hata=hata)
 
  #alper
 

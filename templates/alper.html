@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
- <title>Alper - {% block title %}{% endblock %}</title>
+ <title>Alper {% block title %}{% endblock %}</title>
 <link rel="stylesheet"
  href="{{ url_for('static', filename='style.css') }}" />
  </head>
@@ -11,10 +11,20 @@
  <nav>
  <li><a href="{{ url_for('home_page') }}">Home</a></li>
  <li><a href="{{ url_for('olustur') }}">Create Database</a></li>
+ </nav>
+ <h2>LANGUAGES</h2>
+ <nav>
   <li><a href="{{ url_for('alper_language') }}">List Languages</a></li>
   <li><a href="{{ url_for('alper_language_edit') }}">Add Language</a></li>
   <li><a href="{{ url_for('alper_language_up') }}">Update Language</a></li>
  </nav>
+ <h2>ANTHEMS</h2>
+ <nav>
+ <li><a href="{{ url_for('anthem_list') }}">List Anthems</a></li>
+ <li><a href="{{ url_for('alper_anthem_edit') }}">Add Anthem</a></li>
+  <li><a href="{{ url_for('alper_anthem_up') }}">Update Anthem</a></li>
+ </nav>
+ <div style="height:100px;"></div>
  </header>
 
  {% block content %}{% endblock %}

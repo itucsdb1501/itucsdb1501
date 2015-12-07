@@ -1,0 +1,21 @@
+{% extends "alper.html" %}
+ {% block title %}Anthem List{% endblock %}
+ {% block content %}
+ <h2>Anthem List</h2>
+
+<form action="{{ url_for('anthem_page') }}" method="post">
+ <table>
+ {% for anthem in anthems %}
+ <tr>
+ 	<td><input type="checkbox" name="anthems_to_delete" value="{{anthem.id}}" /></td>
+ <td>
+ <a href="{{ url_for('anthem_page') }}">{{ anthem.id }} ({{ anthem.name }}) {{anthem.language}}</a>
+ </td>
+ </tr>
+ {% endfor %}
+ </table>
+ <input type="submit" value="Delete Anthem" name="delete_anthem" />
+
+ </form>
+
+ {% endblock %}
