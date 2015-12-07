@@ -1,23 +1,23 @@
 {% extends "layout.html" %}
 
-{% block title %} Athletes {% endblock %}
+{% block title %} Comments {% endblock %}
 
 {% block content %}
-  <h3> Athlete List </h3>
+  <h3> Comment List </h3>
   <form action="{{ url_for('athlet_page') }}" method="post">
     <table>
     	<tr>
     		<th>Delete</th>
-    		<th>Athlete ID</th>
-    		<th>Athlete Name</th>
+    		<th>Comment ID</th>
+    		<th>Comment Name</th>
     	</tr>
 
-    	{% for id, name,surname in AthletList %}
+    	{% for id, name,article in CommentList %}
     	<tr>
-    		<td><input type="checkbox" name="athletes_to_delete" value="{{ id }}" /></td>
+    		<td><input type="checkbox" name="comments_to_delete" value="{{ id }}" /></td>
     		<td>{{ id }}</td>
     		<td>{{ name }}</td>
-    		<td>{{ surname }}</td>
+    		<td>{{ article }}</td>
     	</tr>
     	{% endfor %}
 
@@ -25,24 +25,24 @@
     <input type="submit" value="Delete Checked Values" name="Delete" />
   </form>
   </br>
-  <form action="{{ url_for('athlet_page') }}" method="post">
+  <form action="{{ url_for('comment_page') }}" method="post">
     <table>
       <tr>
         <th>name:</th>
         <td><input type="text" name="name" required autofocus /> </td>
       </tr>
       <tr>
-        <th>surname:</th>
-        <td><input type="text" name="surname" required autofocus /> </td>
+        <th>Article:</th>
+        <td><input type="text" name="article" required autofocus /> </td>
       </tr>
     </table>
-    <input type="submit" value="Add Athlet" name="athletes_to_add"/>
+    <input type="submit" value="Add Comment" name="comments_to_add"/>
   </form>
   </br>
-  <form action="{{ url_for('athlet_page') }}" method="post">
+  <form action="{{ url_for('comment_page') }}" method="post">
     <table>
       <tr>
-        <th>Athlete ID:</th>
+        <th>Comment ID:</th>
         <td><input type="text" name="id" required autofocus /> </td>
       </tr>
       <tr>
@@ -50,41 +50,41 @@
         <td><input type="text" name="name" required autofocus /> </td>
       </tr>
       <tr>
-        <th>New Surname:</th>
-        <td><input type="text" name="surname" required autofocus /> </td>
+        <th>New Article:</th>
+        <td><input type="text" name="article" required autofocus /> </td>
       </tr>
 
     </table>
-    <input type="submit" value="Update Athlet" name="athletes_to_update"/>
+    <input type="submit" value="Update Comment" name="comments_to_update"/>
   </form>
 
   <!-- SEARCH -->
 
-  <form action="{{ url_for('athlet_page') }}" method="post">
+  <form action="{{ url_for('comment_page') }}" method="post">
     <table>
       <tr>
         <th>NAME:</th>
         <td><input type="text" name="name" required autofocus /> </td>
       </tr>
     </table>
-    <input type="submit" value="Search Athlet" name="athletes_to_search"/>
+    <input type="submit" value="Search Comment" name="comments_to_search"/>
   </form>
 
 <!-- search result -->
 
-  <form action="{{ url_for('athlet_page') }}" method="post">
+  <form action="{{ url_for('comment_page') }}" method="post">
     <table>
     	<tr>
     		<th>Delete</th>
-    		<th>Athlete ID</th>
-    		<th>Athlete Name</th>
+    		<th>Comment ID</th>
+    		<th>Comment Name</th>
     	</tr>
 
-    	{% for id, name,surname in SearchList %}
+    	{% for id, name,article in SearchList %}
     	<tr>
     		<td>{{ id }}</td>
     		<td>{{ name }}</td>
-    		<td>{{ surname }}</td>
+    		<td>{{ article }}</td>
     	</tr>
     	{% endfor %}
     </table>

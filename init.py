@@ -19,8 +19,8 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO teams (country,continent) VALUES ('Spain','Spain')""")
-#        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('TUrkey','Europa')""")
-#        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('China','Asia')""")
+        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('TUrkey','Europa')""")
+        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('China','Asia')""")
         connection.commit()
 
     def athletes(self):
@@ -38,39 +38,66 @@ class INIT:
         cursor.execute("""INSERT INTO athletes (name,surname) VALUES ('Samet','Ayaltı')""")
         connection.commit()
 
+    def statistics(self):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "DROP TABLE IF EXISTS statistics CASCADE"
+        cursor.execute(query)
+        query = """CREATE TABLE statistics (
+               id SERIAL PRIMARY KEY,
+               distance VARCHAR(40),
+               time VARCHAR(40)
+            )"""
+        cursor.execute(query)
+
+        cursor.execute("""INSERT INTO statistics (distance,time) VALUES ('100m','25sn')""")
+        connection.commit()
+
     def users(self):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
         query = "DROP TABLE IF EXISTS users CASCADE"
         cursor.execute(query)
-
         query = """CREATE TABLE users (
-               id SERIAL PRIMARY KEY
+               id SERIAL PRIMARY KEY,
+               kuladi VARCHAR(40),
+               password VARCHAR(40)
             )"""
         cursor.execute(query)
 
-#        cursor.execute("INSERT INTO users (user,password) VALUES ('Samet','Ayaltı')")
-#        cursor.execute("INSERT INTO users (user,password) VALUES ('BUrak','Balta')")
-#        cursor.execute("INSERT INTO users (user,password) VALUES ('Deneme','BirKi')")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('Samet','Ayaltı')""")
         connection.commit()
 
     def news(self):
-       with dbapi2.connect(self.cp) as connection:
-           cursor = connection.cursor()
-           query = "DROP TABLE IF EXISTS news CASCADE"
-           cursor.execute(query)
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "DROP TABLE IF EXISTS news CASCADE"
+        cursor.execute(query)
+        query = """CREATE TABLE news (
+               id SERIAL PRIMARY KEY,
+               title VARCHAR(40),
+               content VARCHAR(40)
+            )"""
+        cursor.execute(query)
 
-           query = """CREATE TABLE news (
-                   id SERIAL PRIMARY KEY,
-                   title VARCHAR(40) UNIQUE NOT NULL
-                   content  VARCHAR(40) UNIQUE NOT NULL
-               )"""
-           cursor.execute(query)
+        cursor.execute("""INSERT INTO news (title,content) VALUES ('Haber','Ayrıntılar Geliyor')""")
+        connection.commit()
 
-           cursor.execute("INSERT INTO news (title,content) VALUES ('Spain','Europa')")
-           cursor.execute("INSERT INTO news (title,content) VALUES ('TUrkey','Europa')")
-           cursor.execute("INSERT INTO news (title,content) VALUES ('China','Asia')")
-           connection.commit()
+    def comments(self):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "DROP TABLE IF EXISTS comments CASCADE"
+        cursor.execute(query)
+        query = """CREATE TABLE comments (
+               id SERIAL PRIMARY KEY,
+               name VARCHAR(40),
+               article VARCHAR(140)
+            )"""
+        cursor.execute(query)
+
+        cursor.execute("""INSERT INTO comments (name,article) VALUES ('Samet','Yorumum...')""")
+        connection.commit()
+
 
     def tickets(self):
        with dbapi2.connect(self.cp) as connection:
@@ -128,10 +155,12 @@ class INIT:
            connection.commit()
 
     def All(self):
-#         self.news()
+        self.news()
         self.athletes()
         self.teams()
         self.users()
+        self.statistics()
+        self.comments()
 #         self.fixtures()
 #         self.competitions()
 #         self.tickets()

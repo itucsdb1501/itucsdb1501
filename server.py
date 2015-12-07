@@ -13,8 +13,10 @@ from flask.helpers import url_for
 
 from teams import Teams
 from athletes import Athletes
-from store import Store
+from statistics import Statistics
 from users import Users
+from news import News
+from comments import Comments
 from fixtures import Fixtures
 from competitions import Competitions
 from tickets import Tickets
@@ -53,7 +55,7 @@ def user_page():
     if request.method == 'GET':
         now = datetime.datetime.now()
         uselist = uses.get_userlist()
-        return render_template('teams.html', UserList = uselist, current_time=now.ctime())
+        return render_template('users.html', UserList = uselist, current_time=now.ctime())
     elif 'users_to_delete' in request.form:
         ids = request.form.getlist('users_to_delete')
         for id in ids:
@@ -65,6 +67,11 @@ def user_page():
     elif 'users_to_update' in request.form:
         uses.update_user(request.form['id'], request.form['user'],request.form['password'])
         return redirect(url_for('user_page'))
+    elif 'users_to_search' in request.form:
+            searchList = uses.search_user(request.form['name']);
+            now = datetime.datetime.now()
+            uselist = uses.get_userlist()
+            return render_template('users.html', UserList = uselist, SearchList = searchList, current_time=now.ctime())
 
 #--------------------------------------------BURAK BALTA News Start-------------------------------
 @app.route('/News', methods=['GET', 'POST'])
@@ -72,8 +79,8 @@ def new_page():
     nes = News(app.config['dsn'])
     if request.method == 'GET':
         now = datetime.datetime.now()
-        neslist = nes.get_newlist()
-        return render_template('news.html', NewList = neslist, current_time=now.ctime())
+        nelist = nes.get_newlist()
+        return render_template('news.html', NewList = nelist, current_time=now.ctime())
     elif 'news_to_delete' in request.form:
         ids = request.form.getlist('news_to_delete')
         for id in ids:
@@ -85,7 +92,35 @@ def new_page():
     elif 'news_to_update' in request.form:
         nes.update_new(request.form['id'], request.form['title'],request.form['content'])
         return redirect(url_for('new_page'))
+    elif 'news_to_search' in request.form:
+            searchList = nes.search_new(request.form['name']);
+            now = datetime.datetime.now()
+            nelist = nes.get_newlist()
+            return render_template('news.html', NewList = nelist, SearchList = searchList, current_time=now.ctime())
 
+@app.route('/Comments', methods=['GET', 'POST'])
+def comment_page():
+    coms = Comments(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        comlist = coms.get_commentlist()
+        return render_template('comments.html', CommentList = comlist, current_time=now.ctime())
+    elif 'comments_to_delete' in request.form:
+        ids = request.form.getlist('comments_to_delete')
+        for id in ids:
+            coms.delete_comment(id)
+        return redirect(url_for('comment_page'))
+    elif 'comments_to_add' in request.form:
+        coms.add_comment(request.form['name'],request.form['article'])
+        return redirect(url_for('comment_page'))
+    elif 'comments_to_update' in request.form:
+        coms.update_comment(request.form['id'], request.form['name'],request.form['article'])
+        return redirect(url_for('comment_page'))
+    elif 'comments_to_search' in request.form:
+            searchList = coms.search_comment(request.form['name']);
+            now = datetime.datetime.now()
+            comlist = coms.get_commentlist()
+            return render_template('comments.html', CommentList = comlist, SearchList = searchList, current_time=now.ctime())
 
 
 #--------------------------------------------BURAK BALTA FNİSHED--------------------------------------
@@ -136,6 +171,37 @@ def athlet_page():
     elif 'athletes_to_update' in request.form:
         aths.update_athlet(request.form['id'], request.form['name'],request.form['surname'])
         return redirect(url_for('athlet_page'))
+    elif 'athletes_to_search' in request.form:
+            searchList = aths.search_athlet(request.form['name']);
+            now = datetime.datetime.now()
+            athlist = aths.get_athletlist()
+            return render_template('athletes.html', AthletList = athlist, SearchList = searchList, current_time=now.ctime())
+
+#------------------------------------------------Samet Statistics---------------------------
+
+@app.route('/Statistics', methods=['GET', 'POST'])
+def statistic_page():
+    stats = Statistics(app.config['dsn'])
+    if request.method == 'GET':
+        now = datetime.datetime.now()
+        statlist = stats.get_statisticlist()
+        return render_template('statistics.html', StatisticList = statlist, current_time=now.ctime())
+    elif 'statistics_to_delete' in request.form:
+        ids = request.form.getlist('statistics_to_delete')
+        for id in ids:
+            stats.delete_statistic(id)
+        return redirect(url_for('statistic_page'))
+    elif 'statistics_to_add' in request.form:
+        stats.add_statistic(request.form['distance'], request.form['time'])
+        return redirect(url_for('statistic_page'))
+    elif 'statistics_to_update' in request.form:
+        stats.update_statistic(request.form['id'], request.form['distance'], request.form['time'])
+        return redirect(url_for('statistic_page'))
+    elif 'statistics_to_search' in request.form:
+            searchList = stats.search_statistic(request.form['name']);
+            now = datetime.datetime.now()
+            statlist = stats.get_statisticlist()
+            return render_template('statistics.html', StatisticList = statlist, SearchList = searchList, current_time=now.ctime())
 
 #------------------------------------------SAMET SECTION FNISHED----------------------------------
 
@@ -289,22 +355,6 @@ def counter_page():
 
  #alper
 
-''' KOdun çalışmasını engelledğinden dolayı kapattık
-
-@app.route('/deneme')
-def counter_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor=connection.cursor()
-
-        query="SELECT name FROM ANTHEM"
-        cursor.execute(query)
-
-        isim=cursor.fetchone()[0]
-        return "%s" %isim
-
-#alper
-
-'''
 
 @app.route('/initdb')
 def init_db():
