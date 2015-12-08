@@ -233,7 +233,7 @@ class islem:
              #query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
              cursor.execute('INSERT INTO LANGUAGES (ID,NAME) VALUES (%s, %s)',(id, name))
              connection.commit()
-             return islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+             return islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES ORDER BY ID')
     def del_language(id):
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor=connection.cursor()
@@ -262,7 +262,7 @@ class islem:
              #query="INSERT INTO LANGUAGES (ID,NAME) VALUES (?, ?)"
              cursor.execute('INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (%s, %s,%s)',(id, name,language))
              connection.commit()
-             return islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS')
+             return islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS ORDER BY ID')
     def up_anthem(id,name,language):
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor=connection.cursor()
@@ -324,7 +324,7 @@ def olustur():
 @app.route('/alper_language')
 def alper_language():
     try:
-        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES ORDER BY ID')
         return render_template('alper_language.html',languages=languages)
     except:
         hata='press create database'
@@ -361,7 +361,7 @@ def alper_language_edit():
 @app.route('/alper/up',methods=['GET','POST'])
 def language_update():
     if request.method=='GET':
-        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES')
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES ORDER BY ID')
         return render_template('alper_language.html',languages=languages)
     else:
         id=request.form['id']
@@ -370,7 +370,7 @@ def language_update():
             islem.up_language(id, name)
             return redirect(url_for('alper_language'))
         except:
-            hata='error in update(invalid id)'
+            hata='error in update(invalid id or foreign key error)'
             return render_template('alper_error.html',hata=hata)
 
 @app.route('/alper/update')
@@ -381,7 +381,7 @@ def alper_language_up():
 @app.route('/alper/anthemlist')
 def anthem_list():
     try:
-        anthems=islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS')
+        anthems=islem.sel_anthem(anthem,'SELECT ID,NAME,LANGUAGE FROM ANTHEMS ORDER BY ID')
         return render_template('alper_anthem.html',anthems=anthems)
     except:
         hata='press create database'
@@ -434,7 +434,7 @@ def anthem_update():
 @app.route('/alper/continentlist')
 def continent_list():
     try:
-        continents=islem.sel_continent(continent,'SELECT ID,COUNTRY,CONTINENT,LANGUAGE FROM CONTINENTS' )
+        continents=islem.sel_continent(continent,'SELECT ID,COUNTRY,CONTINENT,LANGUAGE FROM CONTINENTS ORDER BY ID' )
         return render_template('alper_continent.html',continents=continents)
     except:
         hata='press create database'
