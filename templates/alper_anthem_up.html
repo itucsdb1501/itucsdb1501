@@ -4,15 +4,15 @@
  <form action="{{ url_for('anthem_update') }}" method="post">
  <table>
  <tr>
- 	<th>ID:</th><td><input type="text" name="id" required autofocus /></td>
+ 	<th>ID:</th><td><input class="textbox" type="text" name="id" required autofocus /></td>
  </tr>
  <tr>
- 	<th>NAME:</th><td><input type="text" name="name"></td>
+ 	<th>NAME:</th><td><input class="textbox" type="text" name="name"></td>
  </tr>
  <tr>
- 	<th>LANGUAGE:</th><td><input type="text" name="language"></td>
+ 	<th>LANGUAGE:</th><td><input class="textbox" type="text" name="language"></td>
  </tr>
  </table>
- <input value="Update Anthem" name="update" type="submit" />
+ <input class="button" value="Update Anthem" name="update" type="submit" />
  </form>
  {% endblock %}

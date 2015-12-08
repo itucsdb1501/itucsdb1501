@@ -5,38 +5,118 @@
  <title>Alper {% block title %}{% endblock %}</title>
 <link rel="stylesheet"
  href="{{ url_for('static', filename='style.css') }}" />
+
+ <style type="text/css">
+	ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color on hover */
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+#header {
+    background-color:black;
+     color:white;
+     text-align:center;
+    padding:5px;
+}
+
+#menu {
+    line-height:30px;
+     background-color:#eeeeee;
+    height:1000px;
+    width:400px;
+     float:left;
+     padding:5px;
+}
+#tablo {
+    width:400px;
+    float:left;
+     padding:10px;
+}
+
+.button{
+			margin-top:1cm;
+			background: rgb(28, 184, 65);
+			color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            font-size: 110%;
+
+
+}
+.textbox{
+		border:2px solid #456879;
+		border-radius:10px;
+		height: 22px;
+		width: 230px;
+		background: rgb(28, 184, 65);
+		color: white;
+}
+
+table {
+     width: 100%;
+
+ }
+
+
+ th,td {
+       padding: 15px;
+    text-align: left;
+     border-bottom: 1px solid #ddd;
+ }
+ tr:hover {background-color: #f5f5f5}
+ th {
+    background-color: #4CAF50;
+    color: white;
+}
+ </style>
+
  </head>
  <body>
- <header>
- <nav>
+ <div id="header"> <h2>TABLES</h2></div>
+ <div id="menu">
+ <ul>
  <li><a href="{{ url_for('home_page') }}">Home</a></li>
  <li><a href="{{ url_for('olustur') }}">Create Database</a></li>
- </nav>
+ </ul>
  <h2>LANGUAGES</h2>
- <nav>
+ <ul>
   <li><a href="{{ url_for('alper_language') }}">List Languages</a></li>
   <li><a href="{{ url_for('alper_language_edit') }}">Add Language</a></li>
   <li><a href="{{ url_for('alper_language_up') }}">Update Language</a></li>
- </nav>
+ </ul>
  <h2>ANTHEMS</h2>
- <nav>
+ <ul>
  <li><a href="{{ url_for('anthem_list') }}">List Anthems</a></li>
  <li><a href="{{ url_for('alper_anthem_edit') }}">Add Anthem</a></li>
   <li><a href="{{ url_for('alper_anthem_up') }}">Update Anthem</a></li>
- </nav>
+ </ul>
  <h2>CONTINENTS</h2>
- <nav>
+ <ul>
  <li><a href="{{ url_for('continent_list') }}">List Continents</a></li>
  <li><a href="{{ url_for('alper_continent_edit') }}">Add Continent</a></li>
   <li><a href="{{ url_for('alper_continent_up') }}">Update Continent</a></li>
- </nav>
+ </ul>
  <div style="height:100px;"></div>
- </header>
-
+ </div>
+ <div id="tablo">
  {% block content %}{% endblock %}
+ </div>
 
- <footer>
- <div id="datetime">{{ current_time }}</div>
- </footer>
  </body>
  </html>

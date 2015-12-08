@@ -4,12 +4,12 @@
  <form action="{{ url_for('language_page') }}" method="post">
  <table>
  <tr>
- 	<th>ID:</th><td><input type="text" name="id" required autofocus /></td>
+ 	<th>ID:</th><td><input class="textbox" type="text" name="id" required autofocus /></td>
  </tr>
  <tr>
- 	<th>NAME:</th><td><input type="text" name="name"></td>
+ 	<th>NAME:</th><td><input class="textbox" type="text" name="name"></td>
  </tr>
  </table>
- <input value="Save" name="save" type="submit" />
+ <input class="button" value="Save Language" name="save" type="submit" />
  </form>
  {% endblock %}

@@ -4,18 +4,18 @@
  <h2>Anthem List</h2>
 
 <form action="{{ url_for('anthem_page') }}" method="post">
- <table border="1" cellpadding="0" cellspacing="0">
+ <table>
  <thead><tr><th></th><th>id</th><th>name</th><th>language</th></tr></thead>
  {% for anthem in anthems %}
  <tr>
- 	<td width="50px"><input type="checkbox" name="anthems_to_delete" value="{{anthem.id}}" /></td>
+ 	<td><input type="checkbox" name="anthems_to_delete" value="{{anthem.id}}" /></td>
 
- <a href="{{ url_for('anthem_page') }}"><td width="100px">{{ anthem.id }}</td><td width="200px">{{ anthem.name }}</td><td width="150px">{{anthem.language}}</td></a>
+ <a href="{{ url_for('anthem_page') }}"><td>{{ anthem.id }}</td><td>{{ anthem.name }}</td><td>{{anthem.language}}</td></a>
 
  </tr>
  {% endfor %}
  </table>
- <input type="submit" value="Delete Anthem" name="delete_anthem" />
+ <input class="button" type="submit" value="Delete Anthem" name="delete_anthem" />
 
  </form>
 
