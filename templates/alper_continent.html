@@ -5,12 +5,12 @@
 
 <form action="{{ url_for('continent_page') }}" method="post">
  <table>
- <thead><tr><th></th><th>id</th><th>country</th><th>continent</th><th>language</th></tr></thead>
+ <thead><tr><th></th><th>id</th><th>country</th><th>continent</th><th>language</th><th>anthem</th></tr></thead>
  {% for continent in continents %}
  <tr>
  	<td><input type="checkbox" name="continents_to_delete" value="{{continent.id}}" /></td>
 
- <a href="{{ url_for('continent_page') }}"><td>{{ continent.id }}</td><td>{{ continent.country }}</td><td>{{continent.continent}}</td><td>{{continent.language}}</td></a>
+ <a href="{{ url_for('continent_page') }}"><td>{{ continent.id }}</td><td>{{ continent.country }}</td><td>{{continent.continent}}</td><td>{{continent.language}}</td><td>{{continent.ant}}</td></a>
 
  </tr>
  {% endfor %}

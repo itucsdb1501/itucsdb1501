@@ -214,11 +214,12 @@ class anthem:
         self.name=name
         self.language=language
 class continent:
-    def __init__(self,id,country,continent,language):
+    def __init__(self,id,country,continent,language,ant):
         self.id=id
         self.country=country
         self.continent=continent
         self.language=language
+        self.ant=ant
 class islem:
     def sel_all(tablo,komut):
          with dbapi2.connect(app.config['dsn']) as connection:
@@ -273,22 +274,22 @@ class islem:
              cursor=connection.cursor()
              cursor.execute(komut)
              rows=cursor.fetchall()
-             table=[tablo(row[0] ,row[1],row[2],row[3]) for row in rows]
+             table=[tablo(row[0] ,row[1],row[2],row[3],row[4]) for row in rows]
         return table
     def del_continent(id):
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor=connection.cursor()
             cursor.execute('DELETE FROM CONTINENTS WHERE ID=%s',[id])
             connection.commit()
-    def add_continent(id,country,continent,language):
+    def add_continent(id,country,continent,language,ant):
           with dbapi2.connect(app.config['dsn']) as connection:
              cursor=connection.cursor()
-             cursor.execute('INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (%s, %s,%s,%s)',(id, country,continent,language))
+             cursor.execute('INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (%s, %s,%s,%s,%s)',(id, country,continent,language,ant))
              connection.commit()
-    def up_continent(id,country,continent,language):
+    def up_continent(id,country,continent,language,ant):
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor=connection.cursor()
-            cursor.execute('UPDATE CONTINENTS SET COUNTRY=%s,CONTINENT=%s,LANGUAGE=%s WHERE ID=%s',(country,continent,language,id))
+            cursor.execute('UPDATE CONTINENTS SET COUNTRY=%s,CONTINENT=%s,LANGUAGE=%s,ANT=%s WHERE ID=%s',(country,continent,language,ant,id))
             connection.commit()
 @app.route('/alper')
 def alper_tablo():
@@ -300,24 +301,26 @@ def alper_tablo():
 def olustur():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor=connection.cursor()
-
-        cursor.execute("DROP TABLE IF EXISTS ANTHEMS")
         cursor.execute("DROP TABLE IF EXISTS CONTINENTS")
+        cursor.execute("DROP TABLE IF EXISTS ANTHEMS")
         cursor.execute("DROP TABLE IF EXISTS LANGUAGES")
         cursor.execute("CREATE TABLE LANGUAGES(ID INTEGER UNIQUE PRIMARY KEY,NAME VARCHAR(20) UNIQUE)")
-        cursor.execute("CREATE TABLE ANTHEMS(ID INTEGER UNIQUE PRIMARY KEY,NAME VARCHAR(20),LANGUAGE VARCHAR(20) REFERENCES LANGUAGES(NAME))")
-        cursor.execute("CREATE TABLE CONTINENTS(ID INTEGER UNIQUE PRIMARY KEY,COUNTRY VARCHAR(20),CONTINENT VARCHAR(20),LANGUAGE VARCHAR(20) REFERENCES LANGUAGES(NAME))")
+        cursor.execute("CREATE TABLE ANTHEMS(ID INTEGER UNIQUE PRIMARY KEY,NAME VARCHAR(20) UNIQUE,LANGUAGE VARCHAR(20) REFERENCES LANGUAGES(NAME))")
+        cursor.execute("CREATE TABLE CONTINENTS(ID INTEGER UNIQUE PRIMARY KEY,COUNTRY VARCHAR(20),CONTINENT VARCHAR(20),LANGUAGE VARCHAR(20) REFERENCES LANGUAGES(NAME),ANT VARCHAR(20) REFERENCES ANTHEMS(NAME))")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (1,'TURKCE')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (2,'INGILIZCE')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (3,'ALMANCA')")
         cursor.execute("INSERT INTO LANGUAGES (ID,NAME) VALUES (4,'RUSCA')")
         cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (1,'ISTIKLAL MARSI','TURKCE')")
         cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (2,'GOD SAVE THE QUENN','INGILIZCE')")
-        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (1,'TURKIYE','AVRUPA','TURKCE')")
-        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (2,'INGILTERE','AVRUPA','INGILIZCE')")
-        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (3,'ALMANYA','AVRUPA','ALMANCA')")
-        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (4,'RUSYA','AVRUPA','RUSCA')")
-        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE) VALUES (5,'AMERIKA','AMERIKA','INGILIZCE')")
+        cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (3,'DEUTSCHLANDLIED','ALMANCA')")
+        cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (4,'RUSYA ULUSAL MARSI','RUSCA')")
+        cursor.execute("INSERT INTO ANTHEMS (ID,NAME,LANGUAGE) VALUES (5,'THE STAR','INGILIZCE')")
+        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (1,'TURKIYE','AVRUPA','TURKCE','ISTIKLAL MARSI')")
+        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (2,'INGILTERE','AVRUPA','INGILIZCE','GOD SAVE THE QUENN')")
+        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (3,'ALMANYA','AVRUPA','ALMANCA','DEUTSCHLANDLIED')")
+        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (4,'RUSYA','AVRUPA','RUSCA','RUSYA ULUSAL MARSI')")
+        cursor.execute("INSERT INTO CONTINENTS (ID,COUNTRY,CONTINENT,LANGUAGE,ANT) VALUES (5,'AMERIKA','AMERIKA','INGILIZCE','THE STAR')")
         connection.commit()
     return render_template('alper.html')
 
@@ -434,7 +437,7 @@ def anthem_update():
 @app.route('/alper/continentlist')
 def continent_list():
     try:
-        continents=islem.sel_continent(continent,'SELECT ID,COUNTRY,CONTINENT,LANGUAGE FROM CONTINENTS ORDER BY ID' )
+        continents=islem.sel_continent(continent,'SELECT ID,COUNTRY,CONTINENT,LANGUAGE,ANT FROM CONTINENTS ORDER BY ID' )
         return render_template('alper_continent.html',continents=continents)
     except:
         hata='press create database'
@@ -453,11 +456,12 @@ def continent_page():
         country=request.form['country']
         continent=request.form['continent']
         language=request.form['language']
+        ant=request.form['ant']
         try:
-            languages=islem.add_continent(id, country, continent, language)
+            languages=islem.add_continent(id, country, continent, language,ant)
             return redirect(url_for('continent_list'))
         except:
-            hata='invalid language or id(id is key and language is foreign key)'
+            hata='invalid language,anthem or id(id is key and language and anthem is foreign key)'
             return render_template('alper_error.html',hata=hata)
 @app.route('/alper/continent/add')
 def alper_continent_edit():
@@ -474,11 +478,12 @@ def continent_update():
         country=request.form['country']
         continent=request.form['continent']
         language=request.form['language']
+        ant=request.form['ant']
         try:
-            islem.up_continent(id, country, continent, language)
+            islem.up_continent(id, country, continent, language,ant)
             return redirect(url_for('continent_list'))
         except:
-            hata='invalid language(language is foreign key)'
+            hata='invalid language,anthem(language,anthem is foreign key)'
             return render_template('alper_error.html',hata=hata)
 
 
