@@ -39,8 +39,6 @@ def get_elephantsql_dsn(vcap_services):
 
 #alper
 
-
-
 @app.route('/')
 def home_page():
     now = datetime.datetime.now()
@@ -140,10 +138,10 @@ def team_page():
             tems.delete_team(id)
         return redirect(url_for('team_page'))
     elif 'teams_to_add' in request.form:
-        tems.add_team(request.form['country'], request.form['continent'])
+        tems.add_team(request.form['country'])
         return redirect(url_for('team_page'))
     elif 'teams_to_update' in request.form:
-        tems.update_team(request.form['id'], request.form['country'], request.form['continent'])
+        tems.update_team(request.form['id'], request.form['country'])
         return redirect(url_for('team_page'))
     elif 'teams_to_search' in request.form:
             searchList = tems.search_team(request.form['name']);
@@ -166,10 +164,10 @@ def athlet_page():
             aths.delete_athlet(id)
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_add' in request.form:
-        aths.add_athlet(request.form['name'],request.form['surname'])
+        aths.add_athlet(request.form['name'],request.form['surname'],request.form['country'])
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_update' in request.form:
-        aths.update_athlet(request.form['id'], request.form['name'],request.form['surname'])
+        aths.update_athlet(request.form['id'], request.form['name'],request.form['surname'],request.form['country'])
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_search' in request.form:
             searchList = aths.search_athlet(request.form['name']);
@@ -192,10 +190,10 @@ def statistic_page():
             stats.delete_statistic(id)
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_add' in request.form:
-        stats.add_statistic(request.form['distance'], request.form['time'])
+        stats.add_statistic(request.form['name'],request.form['surname'],request.form['distance'], request.form['time'], request.form['id_athlete'])
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_update' in request.form:
-        stats.update_statistic(request.form['id'], request.form['distance'], request.form['time'])
+        stats.update_statistic(request.form['id'],request.form['name'],request.form['surname'], request.form['distance'], request.form['time'],request.form['id_athlete'])
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_search' in request.form:
             searchList = stats.search_statistic(request.form['name']);

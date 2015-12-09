@@ -12,15 +12,12 @@ class INIT:
         query = "DROP TABLE IF EXISTS teams CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE teams (
-                id SERIAL PRIMARY KEY,
-                country VARCHAR(40),
-                continent VARCHAR(40)
+                id_team SERIAL PRIMARY KEY,
+                country VARCHAR(40) UNIQUE NOT NULL
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('Spain','Spain')""")
-        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('TUrkey','Europa')""")
-        cursor.execute("""INSERT INTO teams (country,continent) VALUES ('China','Asia')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Turkey')""")
         connection.commit()
 
     def athletes(self):
@@ -29,13 +26,14 @@ class INIT:
         query = "DROP TABLE IF EXISTS athletes CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE athletes (
-               id SERIAL PRIMARY KEY,
+               id_athlete SERIAL PRIMARY KEY,
                name VARCHAR(40),
-               surname VARCHAR(40)
+               surname VARCHAR(40),
+               country VARCHAR(40) REFERENCES teams(country) ON UPDATE CASCADE ON DELETE CASCADE
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO athletes (name,surname) VALUES ('Samet','Ayaltı')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Samet','Ayaltı','Turkey')""")
         connection.commit()
 
     def statistics(self):
@@ -44,13 +42,16 @@ class INIT:
         query = "DROP TABLE IF EXISTS statistics CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE statistics (
-               id SERIAL PRIMARY KEY,
+               id_statistic SERIAL PRIMARY KEY,
                distance VARCHAR(40),
-               time VARCHAR(40)
+               time VARCHAR(40),
+               name VARCHAR(40),
+               surname VARCHAR(40),
+               id_athlete INTEGER REFERENCES athletes(id_athlete) ON UPDATE CASCADE ON DELETE CASCADE
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO statistics (distance,time) VALUES ('100m','25sn')""")
+        cursor.execute("""INSERT INTO statistics (name,surname,distance,time,id_athlete) VALUES ('Ahmet','Alaq','100m','25sn','1')""")
         connection.commit()
 
     def users(self):
@@ -156,11 +157,12 @@ class INIT:
 
     def All(self):
         self.news()
-        self.athletes()
         self.teams()
         self.users()
-        self.statistics()
+
         self.comments()
+        self.athletes()
+        self.statistics()
 #         self.fixtures()
 #         self.competitions()
 #         self.tickets()

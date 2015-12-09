@@ -12,12 +12,11 @@
     		<th>Team Name</th>
     	</tr>
 
-    	{% for id, country,continent in TeamList %}
+    	{% for id, country in TeamList %}
     	<tr>
     		<td><input type="checkbox" name="teams_to_delete" value="{{ id }}" /></td>
     		<td>{{ id }}</td>
     		<td>{{ country }}</td>
-    		<td>{{ continent }}</td>
     	</tr>
     	{% endfor %}
 
@@ -29,11 +28,7 @@
     <table>
       <tr>
         <th>Country:</th>
-        <td><input type="text" name="country" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>Continent:</th>
-        <td><input type="text" name="continent" required autofocus /> </td>
+        <td><input type="text" name="country" /> </td>
       </tr>
     </table>
     <input type="submit" value="Add Team" name="teams_to_add"/>
@@ -48,10 +43,6 @@
       <tr>
         <th>New Country:</th>
         <td><input type="text" name="country" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Continent:</th>
-        <td><input type="text" name="continent" required autofocus /> </td>
       </tr>
     </table>
     <input type="submit" value="Update Team" name="teams_to_update"/>
@@ -79,12 +70,10 @@
     		<th>Team ID</th>
     		<th>Team Name</th>
     	</tr>
-
-    	{% for id, country,continent in SearchList %}
+    	{% for id, country in SearchList %}
     	<tr>
     		<td>{{ id }}</td>
     		<td>{{ country }}</td>
-    		<td>{{ continent }}</td>
     	</tr>
     	{% endfor %}
     </table>

@@ -22,18 +22,18 @@ class Teams:
         connection.commit()
         return
 
-    def add_team(self, country,continent):
+    def add_team(self, country):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "INSERT INTO teams (country,continent) VALUES ('%s','%s')" % (country,continent)
+        query = "INSERT INTO teams (country) VALUES ('%s')" % (country)
         cursor.execute(query)
         connection.commit()
         return
 
-    def update_team(self,id,country,continent):
+    def update_team(self,id,country):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE teams SET country = '%s', continent = '%s' WHERE id = '%s'" % (country,continent,id)
+        query = "UPDATE teams SET country = '%s' WHERE id = '%s'" % (country,id)
         cursor.execute(query)
         connection.commit()
         return

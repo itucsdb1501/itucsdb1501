@@ -12,12 +12,13 @@
     		<th>Athlete Name</th>
     	</tr>
 
-    	{% for id, name,surname in AthletList %}
+    	{% for id, name,surname,country in AthletList %}
     	<tr>
     		<td><input type="checkbox" name="athletes_to_delete" value="{{ id }}" /></td>
     		<td>{{ id }}</td>
     		<td>{{ name }}</td>
     		<td>{{ surname }}</td>
+    		<td>{{ country }}</td>
     	</tr>
     	{% endfor %}
 
@@ -34,6 +35,10 @@
       <tr>
         <th>surname:</th>
         <td><input type="text" name="surname" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>Country:</th>
+        <td><input type="text" name="country" required autofocus /> </td>
       </tr>
     </table>
     <input type="submit" value="Add Athlet" name="athletes_to_add"/>
@@ -52,6 +57,10 @@
       <tr>
         <th>New Surname:</th>
         <td><input type="text" name="surname" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New Country:</th>
+        <td><input type="text" name="country" required autofocus /> </td>
       </tr>
 
     </table>
