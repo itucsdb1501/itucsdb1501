@@ -7,33 +7,41 @@ class Competitions:
         return
 
     def get_competitionlist(self):
-        with dbapi2.connect(self.cp) as connection:
-            cursor = connection.cursor()
-            query = "SELECT * FROM competitions"
-            cursor.execute(query)
-            rows = cursor.fetchall()
-            return rows
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "SELECT * FROM competitions"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        return rows
 
-    def delete_competition(self, id):
-        with dbapi2.connect(self.cp) as connection:
-            cursor = connection.cursor()
-            query = "DELETE FROM competition WHERE id = '%s'" % (id)
-            cursor.execute(query)
-            connection.commit()
-            return
+    def delete_competition(self, id_competition):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "DELETE FROM competitions WHERE id_competition = '%s'" % (id_competition)
+        cursor.execute(query)
+        connection.commit()
+        return
 
     def add_competition(self, team1, team2):
-        with dbapi2.connect(self.cp) as connection:
-            cursor = connection.cursor()
-            query = "INSERT INTO competition (team1,team2) VALUES ('%s')" % (team1,team2)
-            cursor.execute(query)
-            connection.commit()
-            return
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "INSERT INTO competitions (team1,team2) VALUES ('%s', '%s')" % (team1,team2)
+        cursor.execute(query)
+        connection.commit()
+        return
 
-    def update_competition(self, id, team1,team2):
-        with dbapi2.connect(self.cp) as connection:
-            cursor = connection.cursor()
-            query = "UPDATE competition SET team1 = '%s', team2='%s' WHERE id = '%s'" % (team1, team2, id)
-            cursor.execute(query)
-            connection.commit()
-            return
+    def update_competition(self, id_competition, team1,team2):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "UPDATE competitions SET team1 = '%s',team2='%s' WHERE id_competition = '%s'" % (team1, team2, id_competition)
+        cursor.execute(query)
+        connection.commit()
+        return
+
+    def search_competition(self,name):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "SELECT * FROM competitions WHERE team1 LIKE '%s'" % (name)
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        return rows

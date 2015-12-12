@@ -17,10 +17,10 @@
     		<th>Competition Name</th>
     	</tr>
 
-    	{% for id, team1 in CompetitionList %}
+    	{% for id_competition, team1, team2 in CompetitionList %}
     	<tr>
-    		<td><input type="checkbox" name="competitions_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="competitions_to_delete" value="{{ id_competition }}" /></td>
+    		<td>{{ id_competition }}</td>
     		<td>{{ team1 }}</td>
     		<td>{{ team2 }}</td>
     	</tr>
@@ -48,7 +48,7 @@
     <table>
       <tr>
         <th>Competition ID:</th>
-        <td><input type="text" team1="id" required autofocus /> </td>
+        <td><input type="text" team1="id_competition" required autofocus /> </td>
       </tr>
       <tr>
         <th>New team1:</th>
@@ -60,5 +60,37 @@
       </tr>
     </table>
     <input type="submit" value="Update Competition" name="competitions_to_update"/>
+  </form>
+
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('competition_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Competition" name="competitions_to_search"/>
+  </form>
+
+  <!-- search result -->
+
+  <form action="{{ url_for('competition_page') }}" method="post">
+    <table>
+    	<tr>
+    		<th>Delete</th>
+    		<th>Competition ID</th>
+    		<th>Competition Name</th>
+    	</tr>
+    	{% for id_competition, team1, team2 in SearchList %}
+    	<tr>
+    		<td>{{ id_competition }}</td>
+    		<td>{{ team1 }}</td>
+    		<td>{{ team2 }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
   </form>
 {% endblock %}

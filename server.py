@@ -248,16 +248,21 @@ def ticket_page():
         ticklist = ticks.get_ticketlist()
         return render_template('tickets.html', TicketList = ticklist, current_time=now.ctime())
     elif 'tickets_to_delete' in request.form:
-        ids = request.form.getlist('tickets_to_delete')
-        for id in ids:
-            ticks.delete_ticket(id)
+        id_tickets = request.form.getlist('tickets_to_delete')
+        for id_ticket in id_tickets:
+            ticks.delete_ticket(id_ticket)
         return redirect(url_for('ticket_page'))
     elif 'tickets_to_add' in request.form:
-        ticks.add_ticket(request.form['name'],request.form['surname'])
+        ticks.add_ticket(request.form['name'], request.form['surname'])
         return redirect(url_for('ticket_page'))
     elif 'tickets_to_update' in request.form:
         ticks.update_ticket(request.form['id'], request.form['name'],request.form['surname'])
         return redirect(url_for('ticket_page'))
+    elif 'tickets_to_search' in request.form:
+        searchlist = ticks.search_ticket(request.form['name']);
+        now = datetime.datetime.now()
+        ticklist = ticks.get_ticketlist()
+        return render_template('tickets.html', TicketList = ticklist, SearchList = searchlist, current_time = now.ctime())
 
 
 #---------------------------ELIF competitions START------------------------------
@@ -268,18 +273,23 @@ def competition_page():
     if request.method == 'GET':
         now = datetime.datetime.now()
         comlist = coms.get_competitionlist()
-        return render_template('tickets.html', CompetitionList = comlist, current_time=now.ctime())
+        return render_template('competitions.html', CompetitionList = comlist, current_time=now.ctime())
     elif 'competitions_to_delete' in request.form:
-        ids = request.form.getlist('competitions_to_delete')
-        for id in ids:
-            coms.delete_competition(id)
+        id_competitions = request.form.getlist('competitions_to_delete')
+        for id_competition in id_competitions:
+            coms.delete_competition(id_competition)
         return redirect(url_for('competition_page'))
     elif 'competitions_to_add' in request.form:
         coms.add_competition(request.form['team1'],request.form['team2'])
         return redirect(url_for('competition_page'))
     elif 'competitions_to_update' in request.form:
-        coms.update_competition(request.form['id'], request.form['team1'],request.form['team2'])
+        coms.update_competition(request.form['id_competition'], request.form['team1'],request.form['team2'])
         return redirect(url_for('competition_page'))
+    elif 'competitions_to_search' in request.form:
+        coms = coms.search_competition(request.form['team1']);
+        now = datetime.datetime.now()
+        comlist = coms.get_competitionlist()
+        return render_template('competition.html', CompetitionList = comlist, SearchList = searchlist, current_time = now.ctime())
 
 
 #---------------------------ELIF fixtures START------------------------------
@@ -292,16 +302,21 @@ def fixture_page():
         fixlist = fixs.get_fixturelist()
         return render_template('fixtures.html', FixtureList = fixlist, current_time=now.ctime())
     elif 'fixtures_to_delete' in request.form:
-        ids = request.form.getlist('fixtures_to_delete')
-        for id in ids:
-            fixs.delete_fixture(id)
+        id_fixtures = request.form.getlist('fixtures_to_delete')
+        for id_fixture in id_fixtures:
+            fixs.delete_fixture(id_fixture)
         return redirect(url_for('fixture_page'))
     elif 'fixtures_to_add' in request.form:
         fixs.add_fixture(request.form['week'])
         return redirect(url_for('fixture_page'))
     elif 'fixtures_to_update' in request.form:
-        fixs.update_fixture(request.form['id'], request.form['week'])
+        fixs.update_fixture(request.form['id_fixture'], request.form['week'])
         return redirect(url_for('fixture_page'))
+    elif 'fixtures_to_search' in request.form:
+        searchlist = fixs.search_fixture(request.form['name']);
+        now = datetime.datetime.now()
+        fixlist = fixs.get_fixturelist()
+        return render_template('fixtures.html', FixtureList = fixlist, SearchList = searchlist, current_time = now.ctime())
 
 #---------------------------ELIF FINISH------------------------------
 
