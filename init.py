@@ -6,6 +6,22 @@ class INIT:
         self.cp = cp
         return
 
+    def admins(self):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "DROP TABLE IF EXISTS admins CASCADE"
+        cursor.execute(query)
+        query = """CREATE TABLE admins (
+               id SERIAL PRIMARY KEY,
+               kuladi VARCHAR(40),
+               password VARCHAR(40)
+            )"""
+        cursor.execute(query)
+
+        cursor.execute("""INSERT INTO admins (kuladi,password) VALUES ('Samet','22102002')""")
+        cursor.execute("""INSERT INTO admins (kuladi,password) VALUES ('Burak','123456')""")
+        connection.commit()
+
     def teams(self):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
@@ -62,13 +78,13 @@ class INIT:
         query = "DROP TABLE IF EXISTS users CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE users (
-               id SERIAL PRIMARY KEY,
+               id_user SERIAL PRIMARY KEY,
                kuladi VARCHAR(40),
                password VARCHAR(40)
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('Samet','Ayaltı')""")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('itu','123')""")
         connection.commit()
 
     def news(self):
@@ -162,8 +178,9 @@ class INIT:
            connection.commit()
 
     def All(self):
-        self.teams()
         self.users()
+        self.admins()
+        self.teams()
         self.athletes()
         self.statistics()
         self.news()

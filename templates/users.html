@@ -6,16 +6,10 @@
   <h3> User List </h3>
   <form action="{{ url_for('user_page') }}" method="post">
     <table>
+    	{% for id_user, user,password in UserList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>User ID</th>
-    		<th>User Name</th>
-    	</tr>
-
-    	{% for id, user,password in UserList %}
-    	<tr>
-    		<td><input type="checkbox" name="users_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="users_to_delete" value="{{ id_user }}" /></td>
+    		<td>{{ id_user }}</td>
     		<td>{{ user }}</td>
     		<td>{{ password }}</td>
     	</tr>
@@ -43,7 +37,7 @@
     <table>
       <tr>
         <th>User ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <td><input type="text" name="id_user" required autofocus /> </td>
       </tr>
       <tr>
         <th>New user:</th>
@@ -79,9 +73,9 @@
     		<th>New User</th>
     	</tr>
 
-    	{% for id, user,password in SearchList %}
+    	{% for id_user, user,password in SearchList %}
     	<tr>
-    		<td>{{ id }}</td>
+    		<td>{{ id_user }}</td>
     		<td>{{ user }}</td>
     		<td>{{ password }}</td>
     	</tr>

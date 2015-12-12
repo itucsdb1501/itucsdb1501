@@ -14,10 +14,10 @@ class Users:
         rows = cursor.fetchall()
         return rows
 
-    def delete_user(self, id):
+    def delete_user(self, id_user):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "DELETE FROM users WHERE id = '%s'" % (id)
+        query = "DELETE FROM users WHERE id_user = '%s'" % (id)
         cursor.execute(query)
         connection.commit()
 
@@ -29,10 +29,10 @@ class Users:
         connection.commit()
         return
 
-    def update_user(self, id, user,password):
+    def update_user(self, id_user, user,password):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE users SET kuladi = '%s',password='%s' WHERE id = '%s'" % (user,password, id)
+        query = "UPDATE users SET kuladi = '%s',password='%s' WHERE id_user = '%s'" % (user,password, id_user)
         cursor.execute(query)
         connection.commit()
         return
@@ -44,4 +44,15 @@ class Users:
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows
+
+    def control_user(self,username,password):
+        connection = dbapi2.connect(self.cp)
+        cursor = connection.cursor()
+        query = "SELECT * FROM users WHERE kuladi LIKE '%s' AND password LIKE '%s'" % (username,password)
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        if rows:
+            return 1
+        else:
+            return 0
 

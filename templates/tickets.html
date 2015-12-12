@@ -17,11 +17,12 @@
     		<th>Ticket Name</th>
     	</tr>
 
-    	{% for id, name in TicketList %}
+    	{% for id, name,surname in TicketList %}
     	<tr>
     		<td><input type="checkbox" name="tickets_to_delete" value="{{ id }}" /></td>
     		<td>{{ id }}</td>
     		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
     	</tr>
     	{% endfor %}
 

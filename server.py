@@ -15,6 +15,7 @@ from teams import Teams
 from athletes import Athletes
 from statistics import Statistics
 from users import Users
+from admins import Admins
 from news import News
 from comments import Comments
 from fixtures import Fixtures
@@ -42,7 +43,23 @@ def get_elephantsql_dsn(vcap_services):
 @app.route('/')
 def home_page():
     now = datetime.datetime.now()
+    initialize = INIT(app.config['dsn'])
+    initialize.All()
     return render_template('home.html', current_time=now.ctime())
+
+@app.route('/Admins', methods=['GET', 'POST'])
+def admin_page():
+     now = datetime.datetime.now()
+     adms = Admins(app.config['dsn'])
+     if request.method == 'GET':
+        now = datetime.datetime.now()
+        return render_template('admins.html', current_time=now.ctime())
+     elif 'admin_to_control' in request.form:
+        searchList = adms.search_admin(request.form['username'],request.form['password']);
+        if searchList == 1:
+            return redirect(url_for('admin_page'))
+        else:
+            return redirect(url_for('home_page'))
 
 
 #-------------------------------------------BURAK BALTA  User START---------------------------------
@@ -55,22 +72,28 @@ def user_page():
         uselist = uses.get_userlist()
         return render_template('users.html', UserList = uselist, current_time=now.ctime())
     elif 'users_to_delete' in request.form:
-        ids = request.form.getlist('users_to_delete')
-        for id in ids:
+        id_users = request.form.getlist('users_to_delete')
+        for id_user in id_user:
             uses.delete_user(id)
         return redirect(url_for('user_page'))
     elif 'users_to_add' in request.form:
         uses.add_user(request.form['user'],request.form['password'])
         return redirect(url_for('user_page'))
     elif 'users_to_update' in request.form:
-        uses.update_user(request.form['id'], request.form['user'],request.form['password'])
+        uses.update_user(request.form['id_user'], request.form['user'],request.form['password'])
         return redirect(url_for('user_page'))
     elif 'users_to_search' in request.form:
             searchList = uses.search_user(request.form['name']);
             now = datetime.datetime.now()
             uselist = uses.get_userlist()
             return render_template('users.html', UserList = uselist, SearchList = searchList, current_time=now.ctime())
-
+    elif 'users_to_control' in request.form:
+        searchList = uses.control_user(request.form['username'],request.form['password']);
+        print(searchList)
+        if searchList == 1:
+            return redirect(url_for('user_page'))
+        else:
+            return redirect(url_for('home_page'))
 #--------------------------------------------BURAK BALTA News Start-------------------------------
 @app.route('/News', methods=['GET', 'POST'])
 def new_page():
