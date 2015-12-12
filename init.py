@@ -18,6 +18,8 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO teams (country) VALUES ('Turkey')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('England')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Spain')""")
         connection.commit()
 
     def athletes(self):
@@ -34,6 +36,8 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Samet','Ayaltı','Turkey')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Kemal','Deneme','England')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Balta','Burak','Spain')""")
         connection.commit()
 
     def statistics(self):
@@ -45,13 +49,11 @@ class INIT:
                id_statistic SERIAL PRIMARY KEY,
                distance VARCHAR(40),
                time VARCHAR(40),
-               name VARCHAR(40),
-               surname VARCHAR(40),
                id_athlete INTEGER REFERENCES athletes(id_athlete) ON UPDATE CASCADE ON DELETE CASCADE
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO statistics (name,surname,distance,time,id_athlete) VALUES ('Ahmet','Alaq','100m','25sn','1')""")
+        cursor.execute("""INSERT INTO statistics (distance,time,id_athlete) VALUES ('100m','25sn','1')""")
         connection.commit()
 
     def users(self):
@@ -75,13 +77,16 @@ class INIT:
         query = "DROP TABLE IF EXISTS news CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE news (
-               id SERIAL PRIMARY KEY,
+               id_new SERIAL PRIMARY KEY,
                title VARCHAR(40),
-               content VARCHAR(40)
+               content VARCHAR(40),
+               country VARCHAR(40) REFERENCES teams(country) ON UPDATE CASCADE ON DELETE CASCADE
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO news (title,content) VALUES ('Haber','Ayrıntılar Geliyor')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber','Ayrıntılar Geliyor','Turkey')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber2','Ayrıntılar Geliyor','Spain')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber3','Ayrıntılar Geliyor','England')""")
         connection.commit()
 
     def comments(self):
@@ -90,13 +95,14 @@ class INIT:
         query = "DROP TABLE IF EXISTS comments CASCADE"
         cursor.execute(query)
         query = """CREATE TABLE comments (
-               id SERIAL PRIMARY KEY,
+               id_comment SERIAL PRIMARY KEY,
                name VARCHAR(40),
-               article VARCHAR(140)
+               article VARCHAR(140),
+               id_new INTEGER REFERENCES news(id_new) ON UPDATE CASCADE ON DELETE CASCADE
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO comments (name,article) VALUES ('Samet','Yorumum...')""")
+        cursor.execute("""INSERT INTO comments (name,article,id_new) VALUES ('Samet','Yorumum...','1')""")
         connection.commit()
 
 
@@ -156,13 +162,12 @@ class INIT:
            connection.commit()
 
     def All(self):
-        self.news()
         self.teams()
         self.users()
-
-        self.comments()
         self.athletes()
         self.statistics()
+        self.news()
+        self.comments()
 #         self.fixtures()
 #         self.competitions()
 #         self.tickets()

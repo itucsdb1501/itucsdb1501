@@ -14,10 +14,10 @@ class Teams:
         rows = cursor.fetchall()
         return rows
 
-    def delete_team(self, id):
+    def delete_team(self, id_team):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "DELETE FROM teams WHERE id = '%s'" % (id)
+        query = "DELETE FROM teams WHERE id_team = '%s'" % (id_team)
         cursor.execute(query)
         connection.commit()
         return
@@ -30,10 +30,10 @@ class Teams:
         connection.commit()
         return
 
-    def update_team(self,id,country):
+    def update_team(self,id_team,country):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE teams SET country = '%s' WHERE id = '%s'" % (country,id)
+        query = "UPDATE teams SET country = '%s' WHERE id_team = '%s'" % (country,id_team)
         cursor.execute(query)
         connection.commit()
         return

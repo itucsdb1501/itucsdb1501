@@ -6,18 +6,13 @@
   <h3> New List </h3>
   <form action="{{ url_for('new_page') }}" method="post">
     <table>
+    	{% for id_new, title,content,country in NewList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>New ID</th>
-    		<th>New Title</th>
-    	</tr>
-
-    	{% for id, title,content in NewList %}
-    	<tr>
-    		<td><input type="checkbox" name="news_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="news_to_delete" value="{{ id_new }}" /></td>
+    		<td>{{ id_new }}</td>
     		<td>{{ title }}</td>
     		<td>{{ content }}</td>
+    		<td>{{ country }}</td>
     	</tr>
     	{% endfor %}
 
@@ -28,12 +23,16 @@
   <form action="{{ url_for('new_page') }}" method="post">
     <table>
       <tr>
-        <th>title:</th>
+        <th>Title:</th>
         <td><input type="text" name="title" required autofocus /> </td>
       </tr>
       <tr>
-        <th>content:</th>
+        <th>Content:</th>
         <td><input type="text" name="content" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>Country:</th>
+        <td><input type="text" name="country" required autofocus /> </td>
       </tr>
     </table>
     <input type="submit" value="Add New" name="news_to_add"/>
@@ -43,7 +42,7 @@
     <table>
       <tr>
         <th>New ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <td><input type="text" name="id_new" required autofocus /> </td>
       </tr>
       <tr>
         <th>New Title:</th>
@@ -73,17 +72,12 @@
 
   <form action="{{ url_for('new_page') }}" method="post">
     <table>
+    	{% for id_new, title,content,country in SearchList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>New ID</th>
-    		<th>New Title</th>
-    	</tr>
-
-    	{% for id, title,content in SearchList %}
-    	<tr>
-    		<td>{{ id }}</td>
+    		<td>{{ id_new }}</td>
     		<td>{{ title }}</td>
     		<td>{{ content }}</td>
+    		<td>{{ country }}</td>
     	</tr>
     	{% endfor %}
     </table>

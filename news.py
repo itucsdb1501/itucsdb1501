@@ -14,26 +14,36 @@ class News:
         rows = cursor.fetchall()
         return rows
 
-    def delete_new(self, id):
+    def delete_new(self, id_new):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "DELETE FROM news WHERE id = '%s'" % (id)
+        query = "DELETE FROM news WHERE id_new = '%s'" % (id_new)
         cursor.execute(query)
         connection.commit()
         return
 
-    def add_new(self,title,content):
+    def add_new(self,title,content,country):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "INSERT INTO news (title,content) VALUES ('%s','%s')" % (title,content)
+        query = "SELECT country FROM teams WHERE country= '%s'" % (country)
         cursor.execute(query)
+        rows = cursor.fetchall()
+        if rows:
+            query = "INSERT INTO news (title,content,country) VALUES ('%s','%s','%s')" % (title,content,country)
+            cursor.execute(query)
+        else:
+            query = "INSERT INTO teams (country) VALUES ('%s')" % (country)
+            cursor.execute(query)
+            query = "INSERT INTO news (title,content,country) VALUES ('%s','%s','%s')" % (title,content,country)
+            cursor.execute(query)
+
         connection.commit()
         return
 
-    def update_new(self, id, title,content):
+    def update_new(self, id_new, title,content):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE news SET title = '%s', content='%s' WHERE id = '%s'" % (title, content, id)
+        query = "UPDATE news SET title = '%s', content='%s' WHERE id_new = '%s'" % (title, content, id_new)
         cursor.execute(query)
         connection.commit()
         return

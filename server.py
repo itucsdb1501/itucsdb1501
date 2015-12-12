@@ -80,15 +80,15 @@ def new_page():
         nelist = nes.get_newlist()
         return render_template('news.html', NewList = nelist, current_time=now.ctime())
     elif 'news_to_delete' in request.form:
-        ids = request.form.getlist('news_to_delete')
-        for id in ids:
-            nes.delete_new(id)
+        id_news = request.form.getlist('news_to_delete')
+        for id_new in id_news:
+            nes.delete_new(id_new)
         return redirect(url_for('new_page'))
     elif 'news_to_add' in request.form:
-        nes.add_new(request.form['title'],request.form['content'])
+        nes.add_new(request.form['title'],request.form['content'],request.form['country'])
         return redirect(url_for('new_page'))
     elif 'news_to_update' in request.form:
-        nes.update_new(request.form['id'], request.form['title'],request.form['content'])
+        nes.update_new(request.form['id_new'], request.form['title'],request.form['content'])
         return redirect(url_for('new_page'))
     elif 'news_to_search' in request.form:
             searchList = nes.search_new(request.form['name']);
@@ -99,26 +99,31 @@ def new_page():
 @app.route('/Comments', methods=['GET', 'POST'])
 def comment_page():
     coms = Comments(app.config['dsn'])
+    nes = News(app.config['dsn'])
     if request.method == 'GET':
         now = datetime.datetime.now()
         comlist = coms.get_commentlist()
-        return render_template('comments.html', CommentList = comlist, current_time=now.ctime())
+        nelist = nes.get_newlist()
+        return render_template('comments.html', CommentList = comlist, NewList = nelist, current_time=now.ctime())
     elif 'comments_to_delete' in request.form:
-        ids = request.form.getlist('comments_to_delete')
-        for id in ids:
-            coms.delete_comment(id)
+        id_comments = request.form.getlist('comments_to_delete')
+        for id_comment in id_comments:
+            coms.delete_comment(id_comment)
         return redirect(url_for('comment_page'))
     elif 'comments_to_add' in request.form:
-        coms.add_comment(request.form['name'],request.form['article'])
+        id_comments = request.form.getlist('comments_to_add')
+        for id_comment in id_comments:
+            coms.add_comment(request.form['name'],request.form['article'],id_comment)
         return redirect(url_for('comment_page'))
     elif 'comments_to_update' in request.form:
-        coms.update_comment(request.form['id'], request.form['name'],request.form['article'])
+        coms.update_comment(request.form['id_comment'], request.form['name'],request.form['article'])
         return redirect(url_for('comment_page'))
     elif 'comments_to_search' in request.form:
             searchList = coms.search_comment(request.form['name']);
             now = datetime.datetime.now()
             comlist = coms.get_commentlist()
-            return render_template('comments.html', CommentList = comlist, SearchList = searchList, current_time=now.ctime())
+            nelist = nes.get_newlist()
+            return render_template('comments.html', CommentList = comlist, NewList = nelist, SearchList = searchList, current_time=now.ctime())
 
 
 #--------------------------------------------BURAK BALTA FNİSHED--------------------------------------
@@ -133,15 +138,15 @@ def team_page():
         temlist = tems.get_teamlist()
         return render_template('teams.html', TeamList = temlist, current_time=now.ctime())
     elif 'teams_to_delete' in request.form:
-        ids = request.form.getlist('teams_to_delete')
-        for id in ids:
-            tems.delete_team(id)
+        id_teams = request.form.getlist('teams_to_delete')
+        for id_team in id_teams:
+            tems.delete_team(id_team)
         return redirect(url_for('team_page'))
     elif 'teams_to_add' in request.form:
         tems.add_team(request.form['country'])
         return redirect(url_for('team_page'))
     elif 'teams_to_update' in request.form:
-        tems.update_team(request.form['id'], request.form['country'])
+        tems.update_team(request.form['id_team'], request.form['country'])
         return redirect(url_for('team_page'))
     elif 'teams_to_search' in request.form:
             searchList = tems.search_team(request.form['name']);
@@ -159,15 +164,15 @@ def athlet_page():
         athlist = aths.get_athletlist()
         return render_template('athletes.html', AthletList = athlist, current_time=now.ctime())
     elif 'athletes_to_delete' in request.form:
-        ids = request.form.getlist('athletes_to_delete')
-        for id in ids:
-            aths.delete_athlet(id)
+        id_athletes = request.form.getlist('athletes_to_delete')
+        for id_athlete in id_athletes:
+            aths.delete_athlet(id_athlete)
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_add' in request.form:
         aths.add_athlet(request.form['name'],request.form['surname'],request.form['country'])
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_update' in request.form:
-        aths.update_athlet(request.form['id'], request.form['name'],request.form['surname'],request.form['country'])
+        aths.update_athlet(request.form['id_athlete'], request.form['name'],request.form['surname'])
         return redirect(url_for('athlet_page'))
     elif 'athletes_to_search' in request.form:
             searchList = aths.search_athlet(request.form['name']);
@@ -180,26 +185,31 @@ def athlet_page():
 @app.route('/Statistics', methods=['GET', 'POST'])
 def statistic_page():
     stats = Statistics(app.config['dsn'])
+    aths = Athletes(app.config['dsn'])
     if request.method == 'GET':
         now = datetime.datetime.now()
         statlist = stats.get_statisticlist()
-        return render_template('statistics.html', StatisticList = statlist, current_time=now.ctime())
+        athlist = aths.get_athletlist()
+        return render_template('statistics.html', StatisticList = statlist,AthletList = athlist, current_time=now.ctime())
     elif 'statistics_to_delete' in request.form:
-        ids = request.form.getlist('statistics_to_delete')
-        for id in ids:
-            stats.delete_statistic(id)
+        id_statistics = request.form.getlist('statistics_to_delete')
+        for id_statistic in id_statistics:
+            stats.delete_statistic(id_statistic)
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_add' in request.form:
-        stats.add_statistic(request.form['name'],request.form['surname'],request.form['distance'], request.form['time'], request.form['id_athlete'])
+        id_athletes = request.form.getlist('statistics_to_add')
+        for id_athlete in id_athletes:
+            stats.add_statistic(request.form['distance'], request.form['time'],id_athlete)
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_update' in request.form:
-        stats.update_statistic(request.form['id'],request.form['name'],request.form['surname'], request.form['distance'], request.form['time'],request.form['id_athlete'])
+        stats.update_statistic(request.form['distance'], request.form['time'],request.form['id_athlete'])
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_search' in request.form:
             searchList = stats.search_statistic(request.form['name']);
             now = datetime.datetime.now()
             statlist = stats.get_statisticlist()
-            return render_template('statistics.html', StatisticList = statlist, SearchList = searchList, current_time=now.ctime())
+            athlist = aths.get_athletlist()
+            return render_template('statistics.html', StatisticList = statlist, SearchList = searchList,AthletList = athlist, current_time=now.ctime())
 
 #------------------------------------------SAMET SECTION FNISHED----------------------------------
 

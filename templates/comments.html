@@ -4,20 +4,15 @@
 
 {% block content %}
   <h3> Comment List </h3>
-  <form action="{{ url_for('athlet_page') }}" method="post">
+  <form action="{{ url_for('comment_page') }}" method="post">
     <table>
+    	{% for id_comment, name,article,id_new in CommentList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>Comment ID</th>
-    		<th>Comment Name</th>
-    	</tr>
-
-    	{% for id, name,article in CommentList %}
-    	<tr>
-    		<td><input type="checkbox" name="comments_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="comments_to_delete" value="{{ id_comment }}" /></td>
+    		<td>{{ id_comment }}</td>
     		<td>{{ name }}</td>
     		<td>{{ article }}</td>
+    		<td>{{ id_new }}</td>
     	</tr>
     	{% endfor %}
 
@@ -27,6 +22,16 @@
   </br>
   <form action="{{ url_for('comment_page') }}" method="post">
     <table>
+
+    {% for id_new, title,content,country in NewList %}
+    	<tr>
+    		<td><input type="checkbox" name="comments_to_add" value="{{ id_new }}" /></td>
+    		<td>{{ id_new }}</td>
+    		<td>{{ title }}</td>
+    		<td>{{ content }}</td>
+    		<td>{{ country }}</td>
+    	</tr>
+    	{% endfor %}
       <tr>
         <th>name:</th>
         <td><input type="text" name="name" required autofocus /> </td>
@@ -36,14 +41,14 @@
         <td><input type="text" name="article" required autofocus /> </td>
       </tr>
     </table>
-    <input type="submit" value="Add Comment" name="comments_to_add"/>
+    <input type="submit" value="Add Comment" name="Add"/>
   </form>
   </br>
   <form action="{{ url_for('comment_page') }}" method="post">
     <table>
       <tr>
         <th>Comment ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <td><input type="text" name="id_comment" required autofocus /> </td>
       </tr>
       <tr>
         <th>New Name:</th>
@@ -74,17 +79,12 @@
 
   <form action="{{ url_for('comment_page') }}" method="post">
     <table>
+    	{% for id_comment, name,article,id_new in SearchList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>Comment ID</th>
-    		<th>Comment Name</th>
-    	</tr>
-
-    	{% for id, name,article in SearchList %}
-    	<tr>
-    		<td>{{ id }}</td>
+    		<td>{{ id_comment }}</td>
     		<td>{{ name }}</td>
     		<td>{{ article }}</td>
+    		<td>{{ id_new }}</td>
     	</tr>
     	{% endfor %}
     </table>

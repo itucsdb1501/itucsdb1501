@@ -14,26 +14,26 @@ class Comments:
         rows = cursor.fetchall()
         return rows
 
-    def delete_comment(self, id):
+    def delete_comment(self, id_comment):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "DELETE FROM comments WHERE id = '%s'" % (id)
+        query = "DELETE FROM comments WHERE id_comment = '%s'" % (id_comment)
         cursor.execute(query)
         connection.commit()
         return
 
-    def add_comment(self, name,article):
+    def add_comment(self, name,article,id_new):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "INSERT INTO comments (name,article) VALUES ('%s','%s')" % (name,article)
+        query = "INSERT INTO comments (name,article,id_new) VALUES ('%s','%s','%s')" % (name,article,id_new)
         cursor.execute(query)
         connection.commit()
         return
 
-    def update_comment(self, id, name , article):
+    def update_comment(self, id_comment, name , article):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE comments SET name = '%s', article='%s' WHERE id = '%s'" % (name, article, id)
+        query = "UPDATE comments SET name = '%s', article='%s' WHERE id_comment = '%s'" % (name, article, id_comment)
         cursor.execute(query)
         connection.commit()
         return
