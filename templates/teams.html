@@ -58,11 +58,6 @@
 
   <form action="{{ url_for('team_page') }}" method="post">
     <table>
-    	<tr>
-    		<th>Delete</th>
-    		<th>Team ID</th>
-    		<th>Team Name</th>
-    	</tr>
     	{% for id_team, country in SearchList %}
     	<tr>
     		<td>{{ id_team }}</td>

@@ -1,4 +1,3 @@
-
 import datetime
 import json
 import os
@@ -286,10 +285,10 @@ def competition_page():
         coms.update_competition(request.form['id_competition'], request.form['team1'],request.form['team2'])
         return redirect(url_for('competition_page'))
     elif 'competitions_to_search' in request.form:
-        coms = coms.search_competition(request.form['team1']);
+        searchlist = coms.search_competition(request.form['name']);
         now = datetime.datetime.now()
         comlist = coms.get_competitionlist()
-        return render_template('competition.html', CompetitionList = comlist, SearchList = searchlist, current_time = now.ctime())
+        return render_template('competitions.html', CompetitionList = comlist, SearchList = searchlist, current_time = now.ctime())
 
 
 #---------------------------ELIF fixtures START------------------------------

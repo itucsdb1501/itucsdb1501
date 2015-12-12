@@ -37,10 +37,10 @@ class Fixtures:
         cursor.execute(query)
         connection.commit()
         return
-    def search_fixture(self,week):
+    def search_fixture(self,name):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "SELECT * FROM fixtures WHERE week LIKE '%s'" % (week)
+        query = "SELECT * FROM fixtures WHERE week LIKE '%s'" % (name)
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows

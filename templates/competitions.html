@@ -11,11 +11,6 @@
   <h3> Competition List </h3>
   <form action="{{ url_for('competition_page') }}" method="post">
     <table>
-    	<tr>
-    		<th>Delete</th>
-    		<th>Competition ID</th>
-    		<th>Competition Name</th>
-    	</tr>
 
     	{% for id_competition, team1, team2 in CompetitionList %}
     	<tr>
@@ -25,7 +20,6 @@
     		<td>{{ team2 }}</td>
     	</tr>
     	{% endfor %}
-
     </table>
     <input type="submit" value="Delete Checked Values" name="Delete" />
   </form>
@@ -48,7 +42,7 @@
     <table>
       <tr>
         <th>Competition ID:</th>
-        <td><input type="text" team1="id_competition" required autofocus /> </td>
+        <td><input type="text" name="id_competition" required autofocus /> </td>
       </tr>
       <tr>
         <th>New team1:</th>
@@ -79,11 +73,6 @@
 
   <form action="{{ url_for('competition_page') }}" method="post">
     <table>
-    	<tr>
-    		<th>Delete</th>
-    		<th>Competition ID</th>
-    		<th>Competition Name</th>
-    	</tr>
     	{% for id_competition, team1, team2 in SearchList %}
     	<tr>
     		<td>{{ id_competition }}</td>
