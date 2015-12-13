@@ -18,8 +18,7 @@ class INIT:
             )"""
         cursor.execute(query)
 
-        cursor.execute("""INSERT INTO admins (kuladi,password) VALUES ('Samet','22102002')""")
-        cursor.execute("""INSERT INTO admins (kuladi,password) VALUES ('Burak','123456')""")
+        cursor.execute("""INSERT INTO admins (kuladi,password) VALUES ('itu','123')""")
         connection.commit()
 
     def teams(self):
@@ -36,6 +35,12 @@ class INIT:
         cursor.execute("""INSERT INTO teams (country) VALUES ('Turkey')""")
         cursor.execute("""INSERT INTO teams (country) VALUES ('England')""")
         cursor.execute("""INSERT INTO teams (country) VALUES ('Spain')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('China')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('France')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Rusia')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Egyp')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Germany')""")
+        cursor.execute("""INSERT INTO teams (country) VALUES ('Denmark')""")
         connection.commit()
 
     def athletes(self):
@@ -54,6 +59,9 @@ class INIT:
         cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Samet','Ayaltı','Turkey')""")
         cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Kemal','Deneme','England')""")
         cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Balta','Burak','Spain')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Fikri','Denek','Rusia')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Baboli','Deneme','Germany')""")
+        cursor.execute("""INSERT INTO athletes (name,surname,country) VALUES ('Baltuş','Burak','Spain')""")
         connection.commit()
 
     def statistics(self):
@@ -70,6 +78,8 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO statistics (distance,time,id_athlete) VALUES ('100m','25sn','1')""")
+        cursor.execute("""INSERT INTO statistics (distance,time,id_athlete) VALUES ('1000m','255sn','1')""")
+        cursor.execute("""INSERT INTO statistics (distance,time,id_athlete) VALUES ('10000m','2511sn','2')""")
         connection.commit()
 
     def users(self):
@@ -85,6 +95,10 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('itu','123')""")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('alper','123')""")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('samet','123')""")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('elif','123')""")
+        cursor.execute("""INSERT INTO users (kuladi,password) VALUES ('burak','123')""")
         connection.commit()
 
     def news(self):
@@ -103,6 +117,12 @@ class INIT:
         cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber','Ayrıntılar Geliyor','Turkey')""")
         cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber2','Ayrıntılar Geliyor','Spain')""")
         cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Haber3','Ayrıntılar Geliyor','England')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Yenildi','Ayrıntılar Geliyor','Turkey')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Yenildi2','Ayrıntılar Geliyor','Spain')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Yenildi3','Ayrıntılar Geliyor','England')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Patladi','Ayrıntılar Geliyor','Rusia')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Patladi2','Ayrıntılar Geliyor','China')""")
+        cursor.execute("""INSERT INTO news (title,content,country) VALUES ('Patladi3','Ayrıntılar Geliyor','England')""")
         connection.commit()
 
     def comments(self):
@@ -119,6 +139,9 @@ class INIT:
         cursor.execute(query)
 
         cursor.execute("""INSERT INTO comments (name,article,id_new) VALUES ('Samet','Yorumum...','1')""")
+        cursor.execute("""INSERT INTO comments (name,article,id_new) VALUES ('Ali','Yorumum...','2')""")
+        cursor.execute("""INSERT INTO comments (name,article,id_new) VALUES ('Veli','Yorumum...','3')""")
+        cursor.execute("""INSERT INTO comments (name,article,id_new) VALUES ('Kemal','Yorumum...','1')""")
         connection.commit()
 
 

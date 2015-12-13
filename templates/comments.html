@@ -1,98 +1,154 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
- 	</head>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="static/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" >
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="static/main.js"></script>
+</head>
 
-{% block title %} Comments {% endblock %}
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="page-header">
+				    	<h1>COMMENTS PAGE</h1>
+					</div>
+				    	<p>Burak Balta</p>
+			 		<div class="panel-group">
+						<div class="panel panel-danger">
+			      			<div class="panel-heading">COMMENTS TABLE</div>
+		     				<form action="{{ url_for('comment_page') }}" method="post">
+								<table class="table">
+		        					<thead>
+		          						<tr>
+		          							<th></th>
+								            <th>ID</th>
+								            <th>Name</th>
+								            <th>Article</th>
+								            <th>ID_New</th>
+							          	</tr>
+							        </thead>
+		        					<tbody>
+		        					{% for id_comment, name,article,id_new in CommentList %}
+							    	<tr>
+							    		<td><input type="checkbox" name="comments_to_delete" value="{{ id_comment }}" /></td>
+							    		<td>{{ id_comment }}</td>
+							    		<td>{{ name }}</td>
+							    		<td>{{ article }}</td>
+							    		<td>{{ id_new }}</td>
+							    	</tr>
+							    	{% endfor %}
+							        </tbody>
+							      </table>
+							      <button style="margin:0px 0px 15px 15px" type="submit" class="btn btn-warning btn-lg">DELETE</button>
+							</form>
+						  </div>
+						  <div class="panel panel-primary">
+						  	<div class="panel-heading">ADD COMMENTS</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('comment_page') }}" method="post">
 
-{% block content %}
-  <h3> Comment List </h3>
-  <form action="{{ url_for('comment_page') }}" method="post">
-    <table>
-    	{% for id_comment, name,article,id_new in CommentList %}
-    	<tr>
-    		<td><input type="checkbox" name="comments_to_delete" value="{{ id_comment }}" /></td>
-    		<td>{{ id_comment }}</td>
-    		<td>{{ name }}</td>
-    		<td>{{ article }}</td>
-    		<td>{{ id_new }}</td>
-    	</tr>
-    	{% endfor %}
+						      	 	<table class="table">
+							      	 	<thead>
+			          						<tr>
+			          							<th></th>
+									            <th>ID_New</th>
+									            <th>Title</th>
+									            <th>Content</th>
+									            <th>Country</th>
+								          	</tr>
+								        </thead>
+								        <tbody>
+										    {% for id_new, title,content,country in NewList %}
+									    	<tr>
+									    		<td><input type="checkbox" name="comments_to_add" value="{{ id_new }}" /></td>
+									    		<td>{{ id_new }}</td>
+									    		<td>{{ title }}</td>
+									    		<td>{{ content }}</td>
+									    		<td>{{ country }}</td>
+									    	</tr>
+									    	{% endfor %}
+									    </tbody>
+								    	<div class="form-group">
+						    				<label for="inputdefault">Name</label>
+						    				<input class="form-control" name="name" type="text">
+						  				</div>
+						  				<div class="form-group">
+						    				<label for="inputdefault">Article</label>
+						    				<input class="form-control" name="article" type="text">
+						  				</div>
+								    </table>
 
-    </table>
-    <input type="submit" value="Delete Checked Values" name="Delete" />
-  </form>
-  </br>
-  <form action="{{ url_for('comment_page') }}" method="post">
-    <table>
+						  			<button type="submit" class="btn btn-danger btn-lg">INSERT</button>
+								</form>
+						      </div>
+						   </div>
+						    <div class="panel panel-primary">
+						      <div class="panel-heading">UPDATE COMMENTS</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('comment_page') }}" method="post">
+						  			<div class="form-group">
+						    			<label for="inputdefault">ID</label>
+						    			<input class="form-control" name="id_comment" type="text">
+						  			</div>
+						  			<div class="form-group">
+						    				<label for="inputdefault">Name</label>
+						    				<input class="form-control" name="name" type="text">
+						  				</div>
+						  				<div class="form-group">
+						    				<label for="inputdefault">Article</label>
+						    				<input class="form-control" name="article" type="text">
+						  				</div>
+						  			<button type="submit" class="btn btn-danger btn-lg" name="comments_to_update">UPDATE</button>
+								</form>
+						      		</div>
+						    </div>
 
-    {% for id_new, title,content,country in NewList %}
-    	<tr>
-    		<td><input type="checkbox" name="comments_to_add" value="{{ id_new }}" /></td>
-    		<td>{{ id_new }}</td>
-    		<td>{{ title }}</td>
-    		<td>{{ content }}</td>
-    		<td>{{ country }}</td>
-    	</tr>
-    	{% endfor %}
-      <tr>
-        <th>name:</th>
-        <td><input type="text" name="name" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>Article:</th>
-        <td><input type="text" name="article" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Add Comment" name="Add"/>
-  </form>
-  </br>
-  <form action="{{ url_for('comment_page') }}" method="post">
-    <table>
-      <tr>
-        <th>Comment ID:</th>
-        <td><input type="text" name="id_comment" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Name:</th>
-        <td><input type="text" name="name" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Article:</th>
-        <td><input type="text" name="article" required autofocus /> </td>
-      </tr>
+						    <div class="panel panel-primary">
+						      	<div class="panel-heading">SEARCH COMMENTS</div>
+						      		<div class="panel-body">
+						      	 		<form action="{{ url_for('comment_page') }}" method="post">
+						  					<div class="form-group">
+						    					<label for="inputdefault">Word</label>
+						    					<input class="form-control" name="name" type="text">
+						  					</div>
+						  					<button type="submit" class="btn btn-danger btn-lg" name="comments_to_search" >SEARCH</button>
+										</form>
+										<form action="{{ url_for('comment_page') }}" method="post">
+								    		<table class="table">
+									    		<thead>
+								          			<tr>
 
-    </table>
-    <input type="submit" value="Update Comment" name="comments_to_update"/>
-  </form>
+											            <th>ID</th>
+											            <th>Name</th>
+											            <th>Article</th>
+											            <th>ID_New</th>
+								          			</tr>
+							        			</thead>
+							        			<tbody>
+									    			{% for id_comment, name,article,id_new in SearchList %}
+											    	<tr>
+											    		<td>{{ id_comment }}</td>
+											    		<td>{{ name }}</td>
+											    		<td>{{ article }}</td>
+											    		<td>{{ id_new }}</td>
+											    	</tr>
+											    	{% endfor %}
+									    		</tbody>
+								    		</table>
+										</form>
+						      		</div>
+						    </div>
+						</div>
+					</div>
+				<div class="col-md-1"></div>
+			</div>
+	</div>
 
-  <!-- SEARCH -->
-
-  <form action="{{ url_for('comment_page') }}" method="post">
-    <table>
-      <tr>
-        <th>NAME:</th>
-        <td><input type="text" name="name" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Search Comment" name="comments_to_search"/>
-  </form>
-
-<!-- search result -->
-
-  <form action="{{ url_for('comment_page') }}" method="post">
-    <table>
-    	{% for id_comment, name,article,id_new in SearchList %}
-    	<tr>
-    		<td>{{ id_comment }}</td>
-    		<td>{{ name }}</td>
-    		<td>{{ article }}</td>
-    		<td>{{ id_new }}</td>
-    	</tr>
-    	{% endfor %}
-    </table>
-  </form>
-{% endblock %}
-
+</body>
 </html>

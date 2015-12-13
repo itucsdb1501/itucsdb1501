@@ -92,14 +92,14 @@ def user_page():
         return render_template('users.html', UserList = uselist, current_time=now.ctime())
     elif 'users_to_delete' in request.form:
         id_users = request.form.getlist('users_to_delete')
-        for id_user in id_user:
-            uses.delete_user(id)
+        for id_user in id_users:
+            uses.delete_user(id_user)
         return redirect(url_for('user_page'))
     elif 'users_to_add' in request.form:
-        uses.add_user(request.form['user'],request.form['password'])
+        uses.add_user(request.form['kuladi'],request.form['password'])
         return redirect(url_for('user_page'))
     elif 'users_to_update' in request.form:
-        uses.update_user(request.form['id_user'], request.form['user'],request.form['password'])
+        uses.update_user(request.form['id_user'], request.form['kuladi'],request.form['password'])
         return redirect(url_for('user_page'))
     elif 'users_to_search' in request.form:
             searchList = uses.search_user(request.form['name']);

@@ -1,99 +1,154 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
- 	</head>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="static/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" >
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="static/main.js"></script>
+</head>
 
-{% block title %} Statistics {% endblock %}
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="page-header">
+				    	<h1>STATISTIC PAGE</h1>
+					</div>
+				    	<p>Samet Ayaltı</p>
+			 		<div class="panel-group">
+						<div class="panel panel-danger">
+			      			<div class="panel-heading">STATISTIC TABLE</div>
+		     				<form action="{{ url_for('statistic_page') }}" method="post">
+								<table class="table">
+		        					<thead>
+		          						<tr>
+		          							<th></th>
+								            <th>ID</th>
+								            <th>Distance</th>
+								            <th>Time</th>
+								            <th>ID_ATHLETE</th>
+							          	</tr>
+							        </thead>
+		        					<tbody>
+		        					{% for id_statistic,distance,time,id_athlete in StatisticList %}
+							    	<tr>
+							    		<td><input type="checkbox" name="statistics_to_delete" value="{{ id_statistic }}" /></td>
+							    		<td>{{ id_statistic }}</td>
+							    		<td>{{ distance }}</td>
+							    		<td>{{ time }}</td>
+							    		<td>{{ id_athlete }}</td>
+							    	</tr>
+							    	{% endfor %}
+							        </tbody>
+							      </table>
+							      <button style="margin:0px 0px 15px 15px" type="submit" class="btn btn-warning btn-lg">DELETE</button>
+							</form>
+						  </div>
+						  <div class="panel panel-primary">
+						  	<div class="panel-heading">ADD STATISTIC</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('statistic_page') }}" method="post">
 
-{% block content %}
-  <h3> Statistic List </h3>
-  <form action="{{ url_for('statistic_page') }}" method="post">
-    <table>
-    	{% for id_statistic,distance,time,id_athlete in StatisticList %}
-    	<tr>
-    		<td><input type="checkbox" name="statistics_to_delete" value="{{ id_statistic }}" /></td>
-    		<td>{{ id_statistic }}</td>
-    		<td>{{ distance }}</td>
-    		<td>{{ time }}</td>
-    		<td>{{ id_athlete }}</td>
-    	</tr>
-    	{% endfor %}
+						      	 	<table class="table">
+							      	 	<thead>
+			          						<tr>
+			          							<th></th>
+									            <th>ID_ATHLETE</th>
+									            <th>Name</th>
+									            <th>Surname</th>
+									            <th>Country</th>
+								          	</tr>
+								        </thead>
+								        <tbody>
+										    {% for id_athlete,name,surname,country in AthletList %}
+									    	<tr>
+									    		<td><input type="checkbox" name="statistics_to_add" value="{{ id_athlete }}" /></td>
+									    		<td>{{ id_athlete }}</td>
+									    		<td>{{ name }}</td>
+									    		<td>{{ surname }}</td>
+									    		<td>{{ country }}</td>
+									    	</tr>
+									    	{% endfor %}
+									    </tbody>
+								    	<div class="form-group">
+						    				<label for="inputdefault">Distance</label>
+						    				<input class="form-control" name="distance" type="text">
+						  				</div>
+						  				<div class="form-group">
+						    				<label for="inputdefault">Time</label>
+						    				<input class="form-control" name="time" type="text">
+						  				</div>
+								    </table>
 
-    </table>
-    <input type="submit" value="Delete Checked Values" name="Delete" />
-  </form>
-  </br>
-  <form action="{{ url_for('statistic_page') }}" method="post">
-    <table>
+						  			<button type="submit" class="btn btn-danger btn-lg">INSERT</button>
+								</form>
+						      </div>
+						   </div>
+						    <div class="panel panel-primary">
+						      <div class="panel-heading">UPDATE STATISTIC</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('statistic_page') }}" method="post">
+						  			<div class="form-group">
+						    			<label for="inputdefault">ID</label>
+						    			<input class="form-control" name="id_statistic" type="text">
+						  			</div>
+						  			<div class="form-group">
+						    			<label for="inputdefault">Distance</label>
+						    			<input class="form-control" name="distance" type="text">
+						  			</div>
+						  			<div class="form-group">
+						    			<label for="inputdefault">Time</label>
+						    			<input class="form-control" name="time" type="text">
+						  			</div>
+						  			<button type="submit" class="btn btn-danger btn-lg" name="statistics_to_update">UPDATE</button>
+								</form>
+						      		</div>
+						    </div>
 
-    	{% for id_athlete,name,surname,country in AthletList %}
-    	<tr>
-    		<td><input type="checkbox" name="statistics_to_add" value="{{ id_athlete }}" /></td>
-    		<td>{{ id_athlete }}</td>
-    		<td>{{ name }}</td>
-    		<td>{{ surname }}</td>
-    		<td>{{ country }}</td>
-    	</tr>
-    	{% endfor %}
-      <tr>
-        <th>distance:</th>
-        <td><input type="text" name="distance" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>time:</th>
-        <td><input type="text" name="time" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Add Statistic" name="Add"/>
-  </form>
-  </br>
-  <form action="{{ url_for('statistic_page') }}" method="post">
-    <table>
-      <tr>
-        <th>Statistic ID:</th>
-        <td><input type="text" name="id_statistic" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Distance:</th>
-        <td><input type="text" name="distance" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Time:</th>
-        <td><input type="text" name="time" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Update Statistic" name="statistics_to_update"/>
-  </form>
+						    <div class="panel panel-primary">
+						      	<div class="panel-heading">SEARCH STATISTIC</div>
+						      		<div class="panel-body">
+						      	 		<form action="{{ url_for('statistic_page') }}" method="post">
+						  					<div class="form-group">
+						    					<label for="inputdefault">Word</label>
+						    					<input class="form-control" name="name" type="text">
+						  					</div>
+						  					<button type="submit" class="btn btn-danger btn-lg" name="statistics_to_search" >SEARCH</button>
+										</form>
+										<form action="{{ url_for('statistic_page') }}" method="post">
+								    		<table class="table">
+									    		<thead>
+								          			<tr>
 
+											            <th>ID</th>
+											            <th>Distance</th>
+											            <th>Time</th>
+											            <th>ID_ATHLETE</th>
+								          			</tr>
+							        			</thead>
+							        			<tbody>
+									    			{% for id_statistic,distance,time,id_athlete in SearchList %}
+											    	<tr>
+											    		<td>{{ id_statistic }}</td>
+											    		<td>{{ distance }}</td>
+											    		<td>{{ time }}</td>
+											    		<td>{{ id_athlete }}</td>
+											    	</tr>
+											    	{% endfor %}
+									    		</tbody>
+								    		</table>
+										</form>
+						      		</div>
+						    </div>
+						</div>
+					</div>
+				<div class="col-md-1"></div>
+			</div>
+	</div>
 
-  <!-- SEARCH -->
-
-  <form action="{{ url_for('statistic_page') }}" method="post">
-    <table>
-      <tr>
-        <th>NAME:</th>
-        <td><input type="text" name="name" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Search Statistic" name="statistics_to_search"/>
-  </form>
-
-  <!-- search result -->
-
-  <form action="{{ url_for('statistic_page') }}" method="post">
-    <table>
-
-    	{% for id_statistic,distance,time,id_athlete in SearchList %}
-    	<tr>
-    		<td>{{ id_statistic }}</td>
-    		<td>{{ distance }}</td>
-    		<td>{{ time }}</td>
-    		<td>{{ id_athlete }}</td>
-    	</tr>
-    	{% endfor %}
-    </table>
-  </form>
-{% endblock %}
-
+</body>
 </html>

@@ -1,77 +1,114 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
- 	</head>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="static/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" >
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="static/main.js"></script>
+</head>
 
-{% block title %} Teams {% endblock %}
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="page-header">
+				    	<h1>TEAM PAGE</h1>
+					</div>
+				    	<p>Samet Ayaltı</p>
+			 		<div class="panel-group">
+						<div class="panel panel-danger">
+			      			<div class="panel-heading">TEAM TABLE</div>
+		     				 <form action="{{ url_for('team_page') }}" method="post">
+								<table class="table">
+		        					<thead>
+		          						<tr>
+		          							<th></th>
+								            <th>ID</th>
+								            <th>Team</th>
+							          	</tr>
+							        </thead>
+		        					<tbody>
+		        					{% for id_team, country in TeamList %}
+							          <tr>
+							          	<td><input type="checkbox" name="teams_to_delete" value="{{ id_team }}" /></td>
+							            <td>{{ id_team }}</td>
+							    		<td>{{ country }}</td>
+							          </tr>
+		        					{% endfor %}
+							        </tbody>
+							      </table>
+							      <button style="margin:0px 0px 15px 15px" type="submit" class="btn btn-warning btn-lg">DELETE</button>
+								</form>
+						   	</div>
+						    <div class="panel panel-primary">
+						      <div class="panel-heading">ADD TEAM</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('team_page') }}" method="post">
+						  			<div class="form-group">
+						    			<label for="inputdefault">Country</label>
+						    			<input class="form-control" name="country" type="text">
+						  			</div>
+						  			<button type="submit" class="btn btn-danger btn-lg" name="teams_to_add">INSERT</button>
+								</form>
+						      </div>
+						    </div>
+						    <div class="panel panel-primary">
+						      <div class="panel-heading">UPDATE TEAM</div>
+						      <div class="panel-body">
+						      	 <form action="{{ url_for('team_page') }}" method="post">
+						  			<div class="form-group">
+						    			<label for="inputdefault">ID</label>
+						    			<input class="form-control" name="id_team" type="text">
+						  			</div>
+						  			<div class="form-group">
+						    			<label for="inputdefault">New Country</label>
+						    			<input class="form-control" name="country" type="text">
+						  			</div>
+						  			<button type="submit" class="btn btn-danger btn-lg" name="teams_to_update">UPDATE</button>
+								</form>
+						      		</div>
+						    	</div>
 
-{% block content %}
+			    	<div class="panel panel-primary">
+			      		<div class="panel-heading">SEARCH TEAM</div>
+			      		<div class="panel-body">
+			      	 		<form action="{{ url_for('team_page') }}" method="post">
+			  					<div class="form-group">
+			    					<label for="inputdefault">Word</label>
+			    					<input class="form-control" name="name" type="text">
+			  					</div>
+			  					<button type="submit" class="btn btn-danger btn-lg" name="teams_to_search" >SEARCH</button>
+							</form>
+							<form action="{{ url_for('team_page') }}" method="post">
+					    		<table class="table">
+						    		<thead>
+					          			<tr>
+					          				<th></th>
+					            			<th>ID</th>
+					            			<th>Team</th>
+					          			</tr>
+				        			</thead>
+				        			<tbody>
+						    			{% for id_team, country in SearchList %}
+						    			<tr>
+						    				<td>{{ id_team }}</td>
+						    				<td>{{ country }}</td>
+						    			</tr>
+						    			{% endfor %}
+						    		</tbody>
+					    		</table>
+							</form>
+			      		</div>
+			    	</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
 
-  <h3> Team List </h3>
-  <form action="{{ url_for('team_page') }}" method="post">
-    <table>
-    	{% for id_team, country in TeamList %}
-    	<tr>
-    		<td><input type="checkbox" name="teams_to_delete" value="{{ id_team }}" /></td>
-    		<td>{{ id_team }}</td>
-    		<td>{{ country }}</td>
-    	</tr>
-    	{% endfor %}
-    </table>
-    <input type="submit" value="Delete Checked Values" name="Delete" />
-  </form>
-  </br>
-  <form action="{{ url_for('team_page') }}" method="post">
-    <table>
-      <tr>
-        <th>Country:</th>
-        <td><input type="text" name="country" /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Add Team" name="teams_to_add"/>
-  </form>
-  </br>
-  <form action="{{ url_for('team_page') }}" method="post">
-    <table>
-      <tr>
-        <th>Team ID:</th>
-        <td><input type="text" name="id_team" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>New Country:</th>
-        <td><input type="text" name="country" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Update Team" name="teams_to_update"/>
-  </form>
-
-
-  <!-- SEARCH -->
-
-  <form action="{{ url_for('team_page') }}" method="post">
-    <table>
-      <tr>
-        <th>NAME:</th>
-        <td><input type="text" name="name" required autofocus /> </td>
-      </tr>
-    </table>
-    <input type="submit" value="Search Team" name="teams_to_search"/>
-  </form>
-
-  <!-- search result -->
-
-  <form action="{{ url_for('team_page') }}" method="post">
-    <table>
-    	{% for id_team, country in SearchList %}
-    	<tr>
-    		<td>{{ id_team }}</td>
-    		<td>{{ country }}</td>
-    	</tr>
-    	{% endfor %}
-    </table>
-  </form>
-
-{% endblock %}
-
+</body>
 </html>
