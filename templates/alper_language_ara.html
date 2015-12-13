@@ -1,0 +1,13 @@
+{% extends "alper.html" %}
+ {% block title %}Language Ara{% endblock %}
+ {% block content %}
+ <form action="{{ url_for('language_ara') }}" method="post">
+ <table>
+
+ <tr>
+ 	<th>NAME:</th><td><input class="textbox" type="text" name="name"></td>
+ </tr>
+ </table>
+ <input class="button" value="Search Language" name="search" type="submit" />
+ </form>
+ {% endblock %}

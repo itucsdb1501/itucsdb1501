@@ -1,0 +1,12 @@
+{% extends "alper.html" %}
+ {% block title %}Anthem Ara{% endblock %}
+ {% block content %}
+ <form action="{{ url_for('anthem_ara') }}" method="post">
+ <table>
+ <tr>
+ 	<th>NAME:</th><td><input class="textbox" type="text" name="name"></td>
+ </tr>
+ </table>
+ <input class="button" value="Search Anthem" name="search" type="submit" />
+ </form>
+ {% endblock %}

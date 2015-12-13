@@ -378,6 +378,30 @@ class islem:
             cursor=connection.cursor()
             cursor.execute('UPDATE LANGUAGES SET NAME=%s WHERE ID=%s',(name,id))
             connection.commit()
+    def ar_language(name):
+         with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             komut="SELECT ID,NAME FROM LANGUAGES WHERE NAME LIKE '%s'" % name
+             cursor.execute(komut)
+             rows=cursor.fetchall()
+             table=[language(row[0] ,row[1]) for row in rows]
+         return table
+    def ar_anthem(name):
+         with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             komut="SELECT ID,NAME,LANGUAGE FROM ANTHEMS WHERE NAME LIKE '%s'" % name
+             cursor.execute(komut)
+             rows=cursor.fetchall()
+             table=[anthem(row[0] ,row[1],row[2]) for row in rows]
+         return table
+    def ar_continent(name):
+         with dbapi2.connect(app.config['dsn']) as connection:
+             cursor=connection.cursor()
+             komut="SELECT ID,COUNTRY,CONTINENT,LANGUAGE,ANT FROM CONTINENTS WHERE CONTINENT LIKE '%s'" % name
+             cursor.execute(komut)
+             rows=cursor.fetchall()
+             table=[continent(row[0],row[1],row[2],row[3],row[4]) for row in rows]
+         return table
     def sel_anthem(tablo,komut):
         with dbapi2.connect(app.config['dsn']) as connection:
              cursor=connection.cursor()
@@ -509,9 +533,49 @@ def language_update():
             hata='error in update(invalid id or foreign key error)'
             return render_template('alper_error.html',hata=hata)
 
+@app.route('/alper/ar',methods=['GET','POST'])
+def language_ara():
+    if request.method=='GET':
+        languages=islem.sel_all(language,'SELECT ID,NAME FROM LANGUAGES ORDER BY ID')
+        return render_template('alper_language.html',languages=languages)
+    else:
+        name=request.form['name']
+        languages=islem.ar_language(name)
+        return render_template('alper_language.html',languages=languages)
+
+
+
 @app.route('/alper/update')
 def alper_language_up():
     return render_template('alper_language_up.html')
+
+@app.route('/alper/ara')
+def alper_language_ara():
+    return render_template('alper_language_ara.html')
+@app.route('/alper/anthem/ara')
+def alper_anthem_ara():
+    return render_template('alper_anthem_ara.html')
+@app.route('/alper/continent/ara')
+def alper_continent_ara():
+    return render_template('alper_continent_ara.html')
+@app.route('/alper/anthem/ar',methods=['GET','POST'])
+def continent_ara():
+    if request.method=='GET':
+        return redirect(url_for('continent_list'))
+    else:
+        name=request.form['name']
+        continents=islem.ar_continent(name)
+        return render_template('alper_continent.html',continents=continents)
+
+@app.route('/alper/anthem/ar',methods=['GET','POST'])
+def anthem_ara():
+    if request.method=='GET':
+        return redirect(url_for('anthem_list'))
+    else:
+        name=request.form['name']
+        anthems=islem.ar_anthem(name)
+        return render_template('alper_anthem.html',anthems=anthems)
+
 
 
 @app.route('/alper/anthemlist')

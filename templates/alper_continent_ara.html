@@ -1,0 +1,13 @@
+{% extends "alper.html" %}
+ {% block title %}Continent Ara{% endblock %}
+ {% block content %}
+ <form action="{{ url_for('continent_ara') }}" method="post">
+ <table>
+ <tr>
+ 	<th>NAME:</th><td><input class="textbox" type="text" name="name"></td>
+ </tr>
+
+ </table>
+ <input class="button" value="Search Continent" name="search" type="submit" />
+ </form>
+ {% endblock %}
