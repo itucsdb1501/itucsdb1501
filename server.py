@@ -544,7 +544,9 @@ def language_ara():
         return render_template('alper_language.html',languages=languages)
 
 
-
+@app.route('/don')
+def don():
+   return render_template('layout.html')
 @app.route('/alper/update')
 def alper_language_up():
     return render_template('alper_language_up.html')
