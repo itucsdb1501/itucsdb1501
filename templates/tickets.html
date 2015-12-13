@@ -11,17 +11,13 @@
   <h3> Ticket List </h3>
   <form action="{{ url_for('ticket_page') }}" method="post">
     <table>
-    	<tr>
-    		<th>Delete</th>
-    		<th>Ticket ID</th>
-    		<th>Ticket Name</th>
-    	</tr>
 
-    	{% for id, name in TicketList %}
+    	{% for id_ticket, name,surname in TicketList %}
     	<tr>
-    		<td><input type="checkbox" name="tickets_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="tickets_to_delete" value="{{ id_ticket }}" /></td>
+    		<td>{{ id_ticket }}</td>
     		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
     	</tr>
     	{% endfor %}
 
@@ -60,4 +56,33 @@
     </table>
     <input type="submit" value="Update Ticket" name="tickets_to_update"/>
   </form>
+
+
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('ticket_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Ticket" name="tickets_to_search"/>
+  </form>
+
+  <!-- search result -->
+
+  <form action="{{ url_for('ticket_page') }}" method="post">
+    <table>
+    	{% for id_ticket, name, surname in SearchList %}
+    	<tr>
+    		<td>{{ id_ticket }}</td>
+    		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+  </form>
+
 {% endblock %}

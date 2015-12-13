@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+ 	</head>
+
+{% block title %} Statistics {% endblock %}
+
+{% block content %}
+  <h3> Statistic List </h3>
+  <form action="{{ url_for('statistic_page') }}" method="post">
+    <table>
+    	{% for id_statistic,distance,time,id_athlete in StatisticList %}
+    	<tr>
+    		<td><input type="checkbox" name="statistics_to_delete" value="{{ id_statistic }}" /></td>
+    		<td>{{ id_statistic }}</td>
+    		<td>{{ distance }}</td>
+    		<td>{{ time }}</td>
+    		<td>{{ id_athlete }}</td>
+    	</tr>
+    	{% endfor %}
+
+    </table>
+    <input type="submit" value="Delete Checked Values" name="Delete" />
+  </form>
+  </br>
+  <form action="{{ url_for('statistic_page') }}" method="post">
+    <table>
+
+    	{% for id_athlete,name,surname,country in AthletList %}
+    	<tr>
+    		<td><input type="checkbox" name="statistics_to_add" value="{{ id_athlete }}" /></td>
+    		<td>{{ id_athlete }}</td>
+    		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
+    		<td>{{ country }}</td>
+    	</tr>
+    	{% endfor %}
+      <tr>
+        <th>distance:</th>
+        <td><input type="text" name="distance" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>time:</th>
+        <td><input type="text" name="time" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Add Statistic" name="Add"/>
+  </form>
+  </br>
+  <form action="{{ url_for('statistic_page') }}" method="post">
+    <table>
+      <tr>
+        <th>Statistic ID:</th>
+        <td><input type="text" name="id_statistic" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New Distance:</th>
+        <td><input type="text" name="distance" required autofocus /> </td>
+      </tr>
+      <tr>
+        <th>New Time:</th>
+        <td><input type="text" name="time" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Update Statistic" name="statistics_to_update"/>
+  </form>
+
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('statistic_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Statistic" name="statistics_to_search"/>
+  </form>
+
+  <!-- search result -->
+
+  <form action="{{ url_for('statistic_page') }}" method="post">
+    <table>
+
+    	{% for id_statistic,distance,time,id_athlete in SearchList %}
+    	<tr>
+    		<td>{{ id_statistic }}</td>
+    		<td>{{ distance }}</td>
+    		<td>{{ time }}</td>
+    		<td>{{ id_athlete }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+  </form>
+{% endblock %}
+
+</html>

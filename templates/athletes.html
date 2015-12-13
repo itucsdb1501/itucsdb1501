@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-<meta charset="utf-8" />
-
-{% extends "layout.html" %}
+	<head>
+		<meta charset="utf-8" />
+ 	</head>
 
 {% block title %} Athletes {% endblock %}
 
 {% block content %}
-  <h3> Athlet List </h3>
+  <h3> Athlete List </h3>
   <form action="{{ url_for('athlet_page') }}" method="post">
     <table>
+    	{% for id_athlete, name,surname,country in AthletList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>Athlet ID</th>
-    		<th>Athlet Name</th>
-    	</tr>
-
-    	{% for id, name in TeamList %}
-    	<tr>
-    		<td><input type="checkbox" name="athletes_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="athletes_to_delete" value="{{ id_athlete }}" /></td>
+    		<td>{{ id_athlete }}</td>
     		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
+    		<td>{{ country }}</td>
     	</tr>
     	{% endfor %}
-
     </table>
     <input type="submit" value="Delete Checked Values" name="Delete" />
   </form>
@@ -39,15 +33,19 @@
         <th>surname:</th>
         <td><input type="text" name="surname" required autofocus /> </td>
       </tr>
+      <tr>
+        <th>Country:</th>
+        <td><input type="text" name="country" required autofocus /> </td>
+      </tr>
     </table>
-    <input type="submit" value="Add Athlet" name="athlets_to_add"/>
+    <input type="submit" value="Add Athlet" name="athletes_to_add"/>
   </form>
   </br>
   <form action="{{ url_for('athlet_page') }}" method="post">
     <table>
       <tr>
-        <th>Athlet ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <th>Athlete ID:</th>
+        <td><input type="text" name="id_athlete" required autofocus /> </td>
       </tr>
       <tr>
         <th>New Name:</th>
@@ -58,6 +56,36 @@
         <td><input type="text" name="surname" required autofocus /> </td>
       </tr>
     </table>
-    <input type="submit" value="Update Athlet" name="Athlets_to_update"/>
+    <input type="submit" value="Update Athlet" name="athletes_to_update"/>
+  </form>
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('athlet_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Athlet" name="athletes_to_search"/>
+  </form>
+
+<!-- search result -->
+
+  <form action="{{ url_for('athlet_page') }}" method="post">
+    <table>
+
+    	{% for id_athlete, name,surname,country in SearchList %}
+    	<tr>
+    		<td>{{ id_athlete }}</td>
+    		<td>{{ name }}</td>
+    		<td>{{ surname }}</td>
+    		<td>{{ country }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
   </form>
 {% endblock %}
+
+</html>

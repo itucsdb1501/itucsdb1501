@@ -1,47 +1,47 @@
 import psycopg2 as dbapi2
 
-class Teams:
+class Statistics:
 
     def __init__(self, cp):
         self.cp = cp
         return
 
-    def get_teamlist(self):
+    def get_statisticlist(self):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "SELECT * FROM teams"
+        query = "SELECT * FROM statistics"
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows
 
-    def delete_team(self, id_team):
+    def delete_statistic(self, id_statistic):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "DELETE FROM teams WHERE id_team = '%s'" % (id_team)
+        query = "DELETE FROM statistics WHERE id_statistic = '%s'" % (id_statistic)
         cursor.execute(query)
         connection.commit()
         return
 
-    def add_team(self, country):
+    def add_statistic(self,distance,time,id_athlete):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "INSERT INTO teams (country) VALUES ('%s')" % (country)
+        query = "INSERT INTO statistics (distance,time,id_athlete) VALUES ('%s','%s','%s')" % (distance,time,id_athlete)
         cursor.execute(query)
         connection.commit()
         return
 
-    def update_team(self,id_team,country):
+    def update_statistic(self,distance,time,id_statistic):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "UPDATE teams SET country = '%s' WHERE id_team = '%s'" % (country,id_team)
+        query = "UPDATE statistics SET distance = '%s', time = '%s' WHERE id_statistic = '%s'" % (distance,time,id_statistic)
         cursor.execute(query)
         connection.commit()
         return
 
-    def search_team(self,name):
+    def search_statistic(self,name):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
-        query = "SELECT * FROM teams WHERE country LIKE '%s'" % (name)
+        query = "SELECT * FROM statistics WHERE distance LIKE '%s'" % (name)
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows

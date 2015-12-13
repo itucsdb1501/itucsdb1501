@@ -10,17 +10,11 @@
 {% block content %}
   <h3> Fixture List </h3>
   <form action="{{ url_for('fixture_page') }}" method="post">
-    <table>
-    	<tr>
-    		<th>Delete</th>
-    		<th>Fixture ID</th>
-    		<th>Fixture Week</th>
-    	</tr>
 
-    	{% for id, week in FixtureList %}
+    	{% for id_fixture, week in FixtureList %}
     	<tr>
-    		<td><input type="checkbox" name="fixtures_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="fixtures_to_delete" value="{{ id_fixture }}" /></td>
+    		<td>{{ id_fixture }}</td>
     		<td>{{ week }}</td>
     	</tr>
     	{% endfor %}
@@ -39,11 +33,12 @@
     <input type="submit" value="Add Fixture" name="fixtures_to_add"/>
   </form>
   </br>
+
   <form action="{{ url_for('fixture_page') }}" method="post">
     <table>
       <tr>
         <th>Fixture ID:</th>
-        <td><input type="text" week="id" required autofocus /> </td>
+        <td><input type="text" name="id_fixture" required autofocus /> </td>
       </tr>
       <tr>
         <th>New week:</th>
@@ -52,4 +47,31 @@
     </table>
     <input type="submit" value="Update Fixture" name="fixtures_to_update"/>
   </form>
+
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('fixture_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Ticket" name="fixtures_to_search"/>
+  </form>
+
+  <!-- search result -->
+
+  <form action="{{ url_for('fixture_page') }}" method="post">
+    <table>
+    	{% for id_fixture, week in SearchList %}
+    	<tr>
+    		<td>{{ id_fixture }}</td>
+    		<td>{{ week }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+  </form>
+
 {% endblock %}

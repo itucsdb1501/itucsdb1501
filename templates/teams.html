@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-<meta charset="utf-8" />
-
-{% extends "layout.html" %}
+	<head>
+		<meta charset="utf-8" />
+ 	</head>
 
 {% block title %} Teams {% endblock %}
 
 {% block content %}
+
   <h3> Team List </h3>
   <form action="{{ url_for('team_page') }}" method="post">
     <table>
+    	{% for id_team, country in TeamList %}
     	<tr>
-    		<th>Delete</th>
-    		<th>Team ID</th>
-    		<th>Team Name</th>
-    	</tr>
-
-    	{% for id, country in TeamList %}
-    	<tr>
-    		<td><input type="checkbox" name="teams_to_delete" value="{{ id }}" /></td>
-    		<td>{{ id }}</td>
+    		<td><input type="checkbox" name="teams_to_delete" value="{{ id_team }}" /></td>
+    		<td>{{ id_team }}</td>
     		<td>{{ country }}</td>
     	</tr>
     	{% endfor %}
-
     </table>
     <input type="submit" value="Delete Checked Values" name="Delete" />
   </form>
@@ -33,11 +26,7 @@
     <table>
       <tr>
         <th>Country:</th>
-        <td><input type="text" name="country" required autofocus /> </td>
-      </tr>
-      <tr>
-        <th>Continent:</th>
-        <td><input type="text" name="continent" required autofocus /> </td>
+        <td><input type="text" name="country" /> </td>
       </tr>
     </table>
     <input type="submit" value="Add Team" name="teams_to_add"/>
@@ -47,17 +36,42 @@
     <table>
       <tr>
         <th>Team ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <td><input type="text" name="id_team" required autofocus /> </td>
       </tr>
       <tr>
         <th>New Country:</th>
         <td><input type="text" name="country" required autofocus /> </td>
       </tr>
-      <tr>
-        <th>New Continent:</th>
-        <td><input type="text" name="continent" required autofocus /> </td>
-      </tr>
     </table>
     <input type="submit" value="Update Team" name="teams_to_update"/>
   </form>
+
+
+  <!-- SEARCH -->
+
+  <form action="{{ url_for('team_page') }}" method="post">
+    <table>
+      <tr>
+        <th>NAME:</th>
+        <td><input type="text" name="name" required autofocus /> </td>
+      </tr>
+    </table>
+    <input type="submit" value="Search Team" name="teams_to_search"/>
+  </form>
+
+  <!-- search result -->
+
+  <form action="{{ url_for('team_page') }}" method="post">
+    <table>
+    	{% for id_team, country in SearchList %}
+    	<tr>
+    		<td>{{ id_team }}</td>
+    		<td>{{ country }}</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+  </form>
+
 {% endblock %}
+
+</html>
