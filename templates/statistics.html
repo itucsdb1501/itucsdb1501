@@ -1,4 +1,8 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+ 	</head>
 
 {% block title %} Statistics {% endblock %}
 
@@ -48,7 +52,7 @@
     <table>
       <tr>
         <th>Statistic ID:</th>
-        <td><input type="text" name="id" required autofocus /> </td>
+        <td><input type="text" name="id_statistic" required autofocus /> </td>
       </tr>
       <tr>
         <th>New Distance:</th>
@@ -90,5 +94,6 @@
     	{% endfor %}
     </table>
   </form>
-
 {% endblock %}
+
+</html>

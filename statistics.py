@@ -30,7 +30,7 @@ class Statistics:
         connection.commit()
         return
 
-    def update_statistic(self,id_statistic,name,surname,distance,time):
+    def update_statistic(self,distance,time,id_statistic):
         connection = dbapi2.connect(self.cp)
         cursor = connection.cursor()
         query = "UPDATE statistics SET distance = '%s', time = '%s' WHERE id_statistic = '%s'" % (distance,time,id_statistic)

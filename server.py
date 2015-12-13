@@ -23,6 +23,7 @@ from tickets import Tickets
 from anthem import Anthem
 
 from init import INIT
+from _ast import Not
 
 app = Flask(__name__)
 
@@ -46,6 +47,11 @@ def home_page():
     initialize.All()
     return render_template('home.html', current_time=now.ctime())
 
+@app.route('/Start')
+def home_page2():
+    now = datetime.datetime.now()
+    return render_template('home.html', current_time=now.ctime())
+
 @app.route('/Admins', methods=['GET', 'POST'])
 def admin_page():
      now = datetime.datetime.now()
@@ -58,7 +64,21 @@ def admin_page():
         if searchList == 1:
             return redirect(url_for('admin_page'))
         else:
-            return redirect(url_for('home_page'))
+            return redirect(url_for('home_page2'))
+
+@app.route('/Persons', methods=['GET', 'POST'])
+def person_page():
+     now = datetime.datetime.now()
+     uses = Users(app.config['dsn'])
+     if request.method == 'GET':
+        now = datetime.datetime.now()
+        return render_template('persons.html', current_time=now.ctime())
+     elif 'persons_to_control' in request.form:
+        searchList = uses.control_user(request.form['username'],request.form['password']);
+        if searchList == 1:
+            return redirect(url_for('person_page'))
+        else:
+            return redirect(url_for('home_page2'))
 
 
 #-------------------------------------------BURAK BALTA  User START---------------------------------
@@ -66,7 +86,7 @@ def admin_page():
 @app.route('/Users', methods=['GET', 'POST'])
 def user_page():
     uses = Users(app.config['dsn'])
-    if request.method == 'GET':
+    if request.method == 'GET' and ('users_to_new' not in request.form):
         now = datetime.datetime.now()
         uselist = uses.get_userlist()
         return render_template('users.html', UserList = uselist, current_time=now.ctime())
@@ -86,13 +106,9 @@ def user_page():
             now = datetime.datetime.now()
             uselist = uses.get_userlist()
             return render_template('users.html', UserList = uselist, SearchList = searchList, current_time=now.ctime())
-    elif 'users_to_control' in request.form:
-        searchList = uses.control_user(request.form['username'],request.form['password']);
-        print(searchList)
-        if searchList == 1:
-            return redirect(url_for('user_page'))
-        else:
-            return redirect(url_for('home_page'))
+    elif 'users_to_new' in request.form:
+        uses.add_user(request.form['user'],request.form['password'])
+        return redirect(url_for('home_page2'))
 #--------------------------------------------BURAK BALTA News Start-------------------------------
 @app.route('/News', methods=['GET', 'POST'])
 def new_page():
@@ -224,7 +240,7 @@ def statistic_page():
             stats.add_statistic(request.form['distance'], request.form['time'],id_athlete)
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_update' in request.form:
-        stats.update_statistic(request.form['distance'], request.form['time'],request.form['id_athlete'])
+        stats.update_statistic(request.form['distance'], request.form['time'],request.form['id_statistic'])
         return redirect(url_for('statistic_page'))
     elif 'statistics_to_search' in request.form:
             searchList = stats.search_statistic(request.form['name']);
