@@ -560,7 +560,7 @@ def alper_anthem_ara():
 @app.route('/alper/continent/ara')
 def alper_continent_ara():
     return render_template('alper_continent_ara.html')
-@app.route('/alper/anthem/ar',methods=['GET','POST'])
+@app.route('/alper/continent/ar',methods=['GET','POST'])
 def continent_ara():
     if request.method=='GET':
         return redirect(url_for('continent_list'))
@@ -594,10 +594,14 @@ def anthem_page():
     if request.method=='GET':
         return redirect(url_for('anthem_list'))
     elif 'anthems_to_delete' in request.form:
-        values=request.form.getlist('anthems_to_delete')
-        for value in values:
-            islem.del_anthem(value)
-        return redirect(url_for('anthem_list'))
+        try:
+            values=request.form.getlist('anthems_to_delete')
+            for value in values:
+                islem.del_anthem(value)
+                return redirect(url_for('anthem_list'))
+        except:
+            hata='foreign key cannot be deleted'
+            return render_template('alper_error.html',hata=hata)
     else:
         id=request.form['id']
         name=request.form['name']
