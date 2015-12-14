@@ -560,7 +560,7 @@ def alper_anthem_ara():
 @app.route('/alper/continent/ara')
 def alper_continent_ara():
     return render_template('alper_continent_ara.html')
-@app.route('/alper/anthem/ar',methods=['GET','POST'])
+@app.route('/alper/continent/ar',methods=['GET','POST'])
 def continent_ara():
     if request.method=='GET':
         return redirect(url_for('continent_list'))
