@@ -4,24 +4,28 @@ Parts Implemented by Elif Aklan
   First of all, the implementation logic works running of server.py file. There is part that *"import psycopg2 as dbapi2"* is used as an adaptor to make access for postgreSQL connection. Also, there is an import line for Flask to benefit from its facility which makes the connection between userface and development part of project. 
  
     
-Tickets Operations
-****************
+  Tickets Operations
++++++++++++++++++
     In order to perform Tickets operations which are add, delete, update and search, there created a table for tickets object. In the following a query is used which represents its table structure:
     
-    .. code-block:: sql
+    Table Structure
++++++++++++++++++
+  .. code-block:: sql
+  
      CREATE TABLE tickets (
                 id_ticket SERIAL PRIMARY KEY,
                 name VARCHAR(40),
                 surname  VARCHAR(40)
             )
   
-    This SQL table code block takes place as a query in init.py file. But there should be another query before which is for control of table. It is actually used to drop the table and other objects which depend on it. Also, the realization of query happens in the order of connection of cursor, writing the query, and execution of the query. After creating the table, with some queries for insertion to fill the table and connection.commit() are realized. This actually happens for every object.
+    *This SQL table code block takes place as a query in init.py file. But there should be another query before which is for control of table. It is actually used to drop the table and other objects which depend on it. Also, the realization of query happens in the order of connection of cursor, writing the query, and execution of the query. After creating the table, with some queries for insertion to fill the table and connection.commit() are realized. This actually happens for every object.
 
-Database Operations
-+++++++++++++++++++
+    Database Operations
+   ++++++++++++++++++
 
-.. code-block:: python
-   :linenos
+  .. code-block:: python
+    .. highlight:: python
+      :emphasize-lines: 3,5
 
     class Tickets:
 
@@ -72,13 +76,14 @@ Database Operations
    In the above code, there can be seen Tickets class and its functions. For every defined function, there is different queries to be executed.
 
     
-Competitions Operations
-*********************
+ Competitions Operations
++++++++++++++++++
 
     Table structure for Competitions object is like in the following which taes place in *init.py* file:
     
- .. code-block:: python
-   :linenos
+    Table Structure
++++++++++++++++++
+  .. code-block:: sql
    
      CREATE TABLE competitions (
                 id_competition SERIAL PRIMARY KEY,
@@ -88,9 +93,12 @@ Competitions Operations
         
     In the following, there is a part of implementation for Competitions object including initialization for competitions class, for obtaining competitions list, and other important operations such as delete, add, update and search which occurs in *competitions.py* file.
     
-.. code-block:: python
-   :linenos
-   
+    Database Structure
+++++++++++++++++++++
+  .. code-block:: python
+    :linenos
+      .. highlight:: python
+      
   class Competitions:
 
     def __init__(self, cp):
@@ -138,13 +146,14 @@ Competitions Operations
         return rows
         
   
-Fixtures Operations
-*********************
+  Fixtures Operations
++++++++++++++++++
 
     Table structure for Fixtures object is like in the following which taes place in *init.py* file:
     
- .. code-block:: python
-   :linenos
+    Table Structure
++++++++++++++++++++
+ .. code-block:: sql
 
     CREATE TABLE fixtures (
                 id_fixture SERIAL PRIMARY KEY,
@@ -153,8 +162,11 @@ Fixtures Operations
   
     In the following, there is a part of implementation for Fixtures object including initialization for fixtures class, to obtain competitions list, and other important operations such as delete, add, update and search which occurs in *fixtures.py* file.
    
-.. code-block:: python
-   :linenos 
+    Database Structure
+++++++++++++++++++++
+  .. code-block:: python
+    :linenos 
+      .. highlight:: python
    
    class Fixtures:
 
@@ -201,13 +213,14 @@ Fixtures Operations
         rows = cursor.fetchall()
         return rows
         
-    What is more, all these python files actually works on server.py file. After development and compilation part, when the server.py is opened program is run. It can be said that how the all python and html parts work together is explained in details in the following: 
+    * What is more, all these python files actually works on server.py file. After development and compilation part, when the server.py is opened program is run. It can be said that how the all python and html parts work together is explained in details in the following: 
     * First of all, there is some part of implementation in server.py which can be called main part.
     
     * The part for the objects in the order of tickets, competitions and fixtures.
     
-.. code-block:: python
-   :lineno   
+  .. code-block:: python
+    :linenos 
+      .. highlight:: python 
     
 @app.route('/Tickets', methods=['GET', 'POST'])
 def ticket_page():
@@ -262,10 +275,11 @@ def competition_page():
         comlist = coms.get_competitionlist()
         return render_template('competitions.html', CompetitionList = comlist, SearchList = searchlist, current_time = now.ctime())
 
-  * Lastly, fixtures part comes in server.py file:
+    * Lastly, fixtures part comes in server.py file:
   
   .. code-block:: python
-   :linen
+    :linenos 
+      .. highlight:: python
   
 @app.route('/Fixtures', methods=['GET', 'POST'])
 def fixture_page():
