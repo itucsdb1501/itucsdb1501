@@ -2,30 +2,33 @@ Parts Implemented by SAMET AYALTI
 =================================
     There are also three objects as everyone has the same number objects for this project. It is thought that for athletic games there should be *teams* option which should have country for the teams. *athletes* is another object is for all teams, so its attributes are name, surname and contry. Therefor athlete table refers the teams table. Lastly, *statistics* is also objects as a table in project, and it has distance, time and id_athlete attributes which shows all statistic table for athletes. Therefor, statistics table refers the athletes table.
 
-Tickets Operations
-******************
-There are name and surname as attributes as attribute in tickets table. There are  add, delete, search and update operations for the tickets.
+Teams Operations
+****************
+ Country is the attiribute for teams table. There are  add, delete, search and update operations for the teamss.
 
-1. `Add a Ticket`_
-2. `Delete a Ticket`_
-3. `Update a Ticket`_
-4. `Search a Ticket`_
+1. `Add a Team`_
+2. `Delete a Team`_
+3. `Update a Team`_
+4. `Search a Team`_
 
-    *Accessing Tickets Operations*
+    *Accessing teams Operations*
 
-Add a Ticket
-++++++++++++
-  In order to add insert a ticket to tickets table, name and surname are written which are Tickets' attributes, and press add button. Ticket would be added.
-.. _genre_add:
-   .. figure:: addticket.png
+Add a Tema
+++++++++++
+  In order to add insert a team to teams table, country is written which are Teams' attributes, and press add button. Team would be added.
+.. _genre_team:
+   .. figure:: images/add/Team.png
        :scale: 80 %
        :align: center
+       :alt: map to buried treas
+
 
    .. figure:: addticket1.png
        :scale: 80 %
        :align: center
+       :alt: map to buried treas
 
-        *Adding a ticket*
+        *Adding a team*
 
 Delete a Ticket
 +++++++++++++++
