@@ -1,23 +1,23 @@
 Parts Implemented by Elif Aklan
-================================
-  Three tables *tickets*, *competitions*, and *fixtures* are implemented by developer part using Oracle/Python, SQL and Vagrant on local.Those objects have in the order tickets.py, competitions.py, fixtures.py python files beside server.py and init.py. Also, there are html file for using text box, check box and button in design part. 
-  First of all, the implementation logic works running of server.py file. There is part that *"import psycopg2 as dbapi2"* is used as an adaptor to make access for postgreSQL connection. Also, there is an import line for Flask to benefit from its facility which makes the connection between userface and development part of project. 
- 
-    
-  Tickets Operations
-+++++++++++++++++
+===============================
+  Three tables *tickets*, *competitions*, and *fixtures* are implemented by developer part using Oracle/Python, SQL and Vagrant on local.Those objects have in the order tickets.py, competitions.py, fixtures.py python files beside server.py and init.py. Also, there are html file for using text box, check box and button in design part.
+  First of all, the implementation logic works running of server.py file. There is part that *"import psycopg2 as dbapi2"* is used as an adaptor to make access for postgreSQL connection. Also, there is an import line for Flask to benefit from its facility which makes the connection between userface and development part of project.
+
+
+Tickets Operations
+++++++++++++++++++
     In order to perform Tickets operations which are add, delete, update and search, there created a table for tickets object. In the following a query is used which represents its table structure:
-    
-    Table Structure
-+++++++++++++++++
+
+Table Structure
++++++++++++++++
   .. code-block:: sql
-  
+
      CREATE TABLE tickets (
                 id_ticket SERIAL PRIMARY KEY,
                 name VARCHAR(40),
                 surname  VARCHAR(40)
             )
-  
+
     *This SQL table code block takes place as a query in init.py file. But there should be another query before which is for control of table. It is actually used to drop the table and other objects which depend on it. Also, the realization of query happens in the order of connection of cursor, writing the query, and execution of the query. After creating the table, with some queries for insertion to fill the table and connection.commit() are realized. This actually happens for every object.
 
     Database Operations
@@ -72,33 +72,33 @@ Parts Implemented by Elif Aklan
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows
-        
+
    In the above code, there can be seen Tickets class and its functions. For every defined function, there is different queries to be executed.
 
-    
- Competitions Operations
-+++++++++++++++++
+
+Competitions Operations
++++++++++++++++++++++++
 
     Table structure for Competitions object is like in the following which taes place in *init.py* file:
-    
-    Table Structure
-+++++++++++++++++
+
+Table Structure
++++++++++++++++
   .. code-block:: sql
-   
+
      CREATE TABLE competitions (
                 id_competition SERIAL PRIMARY KEY,
                 team1 VARCHAR(40),
                 team2  VARCHAR(40)
             )
-        
+
     In the following, there is a part of implementation for Competitions object including initialization for competitions class, for obtaining competitions list, and other important operations such as delete, add, update and search which occurs in *competitions.py* file.
-    
-    Database Structure
-++++++++++++++++++++
+
+Database Structure
+++++++++++++++++++
   .. code-block:: python
     :linenos
       .. highlight:: python
-      
+
   class Competitions:
 
     def __init__(self, cp):
@@ -144,30 +144,30 @@ Parts Implemented by Elif Aklan
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows
-        
-  
-  Fixtures Operations
-+++++++++++++++++
+
+
+Fixtures Operations
++++++++++++++++++++
 
     Table structure for Fixtures object is like in the following which taes place in *init.py* file:
-    
-    Table Structure
-+++++++++++++++++++
+
+Table Structure
++++++++++++++++
  .. code-block:: sql
 
     CREATE TABLE fixtures (
                 id_fixture SERIAL PRIMARY KEY,
                 week VARCHAR(40)
             )
-  
+
     In the following, there is a part of implementation for Fixtures object including initialization for fixtures class, to obtain competitions list, and other important operations such as delete, add, update and search which occurs in *fixtures.py* file.
-   
-    Database Structure
-++++++++++++++++++++
+
+Database Structure
+++++++++++++++++++
   .. code-block:: python
-    :linenos 
+    :linenos
       .. highlight:: python
-   
+
    class Fixtures:
 
     def __init__(self, cp):
@@ -212,16 +212,16 @@ Parts Implemented by Elif Aklan
         cursor.execute(query)
         rows = cursor.fetchall()
         return rows
-        
-    * What is more, all these python files actually works on server.py file. After development and compilation part, when the server.py is opened program is run. It can be said that how the all python and html parts work together is explained in details in the following: 
+
+    * What is more, all these python files actually works on server.py file. After development and compilation part, when the server.py is opened program is run. It can be said that how the all python and html parts work together is explained in details in the following:
     * First of all, there is some part of implementation in server.py which can be called main part.
-    
+
     * The part for the objects in the order of tickets, competitions and fixtures.
-    
+
   .. code-block:: python
-    :linenos 
-      .. highlight:: python 
-    
+    :linenos
+      .. highlight:: python
+
 @app.route('/Tickets', methods=['GET', 'POST'])
 def ticket_page():
     ticks = Tickets(app.config['dsn'])
@@ -247,10 +247,10 @@ def ticket_page():
         return render_template('tickets.html', TicketList = ticklist, SearchList = searchlist, current_time = now.ctime())
 
     * Secondly, there comes for competitions:
-    
+
   .. code-block:: python
-   :linen 
-   
+   :linen
+
 @app.route('/Competitions', methods=['GET', 'POST'])
 def competition_page():
     coms = Competitions(app.config['dsn'])
@@ -276,11 +276,11 @@ def competition_page():
         return render_template('competitions.html', CompetitionList = comlist, SearchList = searchlist, current_time = now.ctime())
 
     * Lastly, fixtures part comes in server.py file:
-  
+
   .. code-block:: python
-    :linenos 
+    :linenos
       .. highlight:: python
-  
+
 @app.route('/Fixtures', methods=['GET', 'POST'])
 def fixture_page():
     fixs = Fixtures(app.config['dsn'])
@@ -304,7 +304,7 @@ def fixture_page():
         now = datetime.datetime.now()
         fixlist = fixs.get_fixturelist()
         return render_template('fixtures.html', FixtureList = fixlist, SearchList = searchlist, current_time = now.ctime())
-        
-    * All the implementation logic works like when the request comes from html page which flask framework works for this part, the request is considered for any wanted operation. Request form is filled by the coming request. 
-    
-    *After that, data passed as parameter to the called function from object's python file. This is where the queries work. Finally, the result would be returned which is seen on the user page website. 
+
+    * All the implementation logic works like when the request comes from html page which flask framework works for this part, the request is considered for any wanted operation. Request form is filled by the coming request.
+
+    *After that, data passed as parameter to the called function from object's python file. This is where the queries work. Finally, the result would be returned which is seen on the user page website.
