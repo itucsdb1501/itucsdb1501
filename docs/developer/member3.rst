@@ -6,7 +6,7 @@ Parts Implemented by SAMET AYALTI
 
 Teams Operations
 ++++++++++++++++
-    In order to perform Teams operations which are add, delete, update and search, there created a table for tickets object. In the following a query is used which represents its table structure:
+    In order to perform Teams operations which are add, delete, update and search, there created a table for teams object. In the following a query is used which represents its table structure:
 
 Table Structure
 +++++++++++++++
@@ -78,7 +78,7 @@ Table Structure
 Athletes Operations
 +++++++++++++++++++
 
-    Table structure for Competitions object is like in the following which taes place in *init.py* file:
+    Table structure for Competitions object is like in the following which takes place in *init.py* file:
 
 Table Structure
 +++++++++++++++
