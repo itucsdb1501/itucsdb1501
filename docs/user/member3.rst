@@ -17,7 +17,7 @@ Add a Team
 ++++++++++
   In order to add insert a team to teams table, country is written which are Teams' attributes, and press add button. Team would be added.
 
-.. figure:: images/Delete/Team.png
+.. figure:: images/delete/Team.png
    :scale: 70%
    :alt: map to buried treas
    :align: center
@@ -83,7 +83,7 @@ Add a Athlete
 +++++++++++++
   In order to add insert a athlete to athletes table. name, surname and country are written which are Athletes' attributes, and press add button. Athlete would be added.
 
-.. figure:: images/Delete/Athlete.png
+.. figure:: images/delete/Athlete.png
    :scale: 70%
    :alt: map to buried treas
    :align: center
@@ -147,12 +147,12 @@ Add a Statistic
 +++++++++++++++
   In order to add insert a statistic to statistics table, distance andtime are written after is chosen athlete with check-box which are Statistics' attributes, and press add button. Statistic would be added.
 
-.. figure:: images/Delete/Statistic.png
+.. figure:: images/delete/Statistic.png
    :scale: 70%
    :alt: map to buried treas
    :align: center
 
-.. figure:: images/add/EklendiStatistic1.png
+.. figure:: images/ExtraAdd/EklendiStatistic1.png
    :scale: 70%
    :alt: map to buried treas
    :align: center

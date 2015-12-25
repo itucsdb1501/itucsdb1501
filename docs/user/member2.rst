@@ -1,208 +1,191 @@
 Parts Implemented by Burak Balta
 ================================
-    There are also three objects as everyone has the same number objects for this project. It is thought that for athletic games there should be *teams* option which should have country for the teams. *athletes* is another object is for all teams, so its attributes are name, surname and contry. Therefor athlete table refers the teams table. Lastly, *statistics* is also objects as a table in project, and it has distance, time and id_athlete attributes which shows all statistic table for athletes. Therefor, statistics table refers the athletes table.
+    There are also three objects as everyone has the same number objects for this project. It is thought that for athletic games there should be *Users* option which should have country for the teams. *athletes* is another object is for all teams, so its attributes are name, surname and contry. Therefor athlete table refers the teams table. Lastly, *statistics* is also objects as a table in project, and it has distance, time and id_athlete attributes which shows all statistic table for athletes. Therefor, statistics table refers the athletes table.
 
 Users Operations
 ****************
-There are name and surname as attributes as attribute in users table. There are  add, delete, search and update operations for the tickets.
+ Users is the attiribute for teams table. There are  add, delete, search and update operations for the teamss.
 
-1. `Add a Users`_
-2. `Delete a Users`_
-3. `Update a Users`_
-4. `Search a Users`_
+1. `Add an User`_
+2. `Delete an User`_
+3. `Update an User`_
+4. `Search an User`_
 
     *Accessing Users Operations*
 
-Add a User
+Add an User
++++++++++++
+  In order to add insert a user to Users table, user name and the password of the user which are Users table's attributes should be added and the button must be pressed. User would be added.
+
+.. figure:: images/delete/User.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+.. figure:: images/add/User.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+   *Add an user*
+
+
+.. figure:: images/ExtraAdd/EklendiUser.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+Delete an User
+++++++++++++++
+   In order to remove an user from Users table, the selection of the user and pressing the delete button would realize the deletion operation from the table.
+
+.. figure:: images/delete/User.png
+       :scale: 80 %
+       :align: center
+
+       *delete an user with checkbox*
+
+Update an User
+++++++++++++++
+    In order to update the already presented user on the table, id, username and password should be written in text boxes and after that, pressing the update button simply would realize the update operation on the table.
+
+.. figure:: images/update/User.png
+    :scale: 80 %
+    :align: center
+
+    *update a team*
+
+Search an User
+++++++++++++++
+    In order to realize search operation, the textbox is filled and search button is pressed. Then the user which is searched will be appeared separately simply.
+
+.. figure:: images/update/User.png
+    :scale: 80 %
+    :align: center
+
+    *Searching a Team*
+
+
+News Operations
+***************
+There are id, title, content and country as attributes in the News table. There are add,  delete , search and update options for the News.
+
+1. `Add a News`_
+2. `Delete a News`_
+3. `Update a News`_
+4. `Search a News`_
+
+    *Accessing News Operations*
+
+Add a News
 ++++++++++
-  In order to add insert a ticket to tickets table, name and surname are written which are Tickets' attributes, and press add button. Ticket would be added.
-.. _genre_add:
-   .. figure:: addticket.png
-       :scale: 80 %
-       :align: center
+  In order to add insert a news to news table, title, content and country should be given.
 
-   .. figure:: addticket1.png
-       :scale: 80 %
-       :align: center
+.. figure:: images/delete/New.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
 
-        *Adding a ticket*
+.. figure:: images/add/New.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
 
-Delete a Ticket
-+++++++++++++++
-   In order to remove a ticket from tickets table, the selection of the ticket and pressing the delete button would realize the deletion operation from the table.
-.. _genre_delete:
-   .. figure:: deleteticket.png
-       :scale: 80 %
-       :align: center
 
-   .. figure:: deleteticket1.png
-       :scale: 80 %
-       :align: center
+.. figure:: images/ExtraAdd/EklendiNew.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
 
-        *Deleting a ticket*
-
-Update a Ticket
-+++++++++++++++
-    In order to update the already presented ticket on the table, id, name and surname are written in text boxes after that, pressing the update button simply would realize the update operation on the table.
-.. _genre_update:
-   .. figure:: updateticket.png
-       :scale: 80 %
-       :align: center
-
-   .. figure:: updateticket1.png
-       :scale: 80 %
-       :align: center
-
-       *Updating a ticket*
-
-Search a Ticket
-+++++++++++++++
-    In order to realize search operation, the textbox is filled and search button is pressed. Then the ticket which is searched will be appeared separately simply.
-.. _genre_search:
-   .. figure:: searchticket.png
-       :scale: 80 %
-       :align: center
-
-   .. figure:: searchticket1.png
-       :scale: 80 %
-       :align: center
-
-       *Searching a ticket*
-
-Competitions Operations
-***********************
-There are team1 and team2 as attributes in competition table. There are add,  delete , search and update options for the competitions.
-
-1. `Add a Competition`_
-2. `Delete a Competition`_
-3. `Update a Competition`_
-4. `Search a Competition`_
-
-    *Accessing Competitions Operations*
-
-Add a Competition
-+++++++++++++++++
-  In order to add insert a competition to competitions table, team1 and team2 are written which are Competitions' attributes, and press add button. Competition would be added.
-.. _genre_add:
-   .. figure:: addcompetition.png
-       :scale: 80 %
-       :align: center
-
-   .. figure:: addcompetition1.png
-       :scale: 80 %
-       :align: center
-
-       *Adding a competition*
-
-Delete a Competition
-++++++++++++++++++++
-   In order to remove a competition from competitions table, the selection of the competition and pressing the delete button would realize the deletion operation from the table.
-.. _genre_delete:
-   .. figure:: deletecompetition.png
-       :scale: 80 %
-       :align: center
-
-   .. figure:: deletecompetition1.png
-       :scale: 80 %
-       :align: center
-
-       *Deleting a competition*
-
-Update a Competition
-++++++++++++++++++++
-    In order to update the already presented competition on the table, id, team1 and team2 are written in text boxes after that, pressing the update button simply would realize the update operation on the table.
-.. _genre_update:
-   .. figure:: updatecompetition.png
-       :scale: 80 %
-       :align: center
-
-  .. figure:: updatecompetition1.png
-       :scale: 80 %
-       :align: center
-
-       *Updating a competition*
-
-Search a Competition
-++++++++++++++++++++
-    In order to realize search operation, the textbox is filled and search button is pressed. Then the competition which is searched will be appeared separately simply.
-.. _genre_search:
-   .. figure:: searchcompetition.png
-       :scale: 80 %
-       :align: center
-
-   .. figure:: searchcompetition1.png
-       :scale: 80 %
-       :align: center
-
-       *Searching a competition*
-
-Fixtures Operations
-*******************
-There are weeks as attribute in fixtures table. There are add, delete , search and update options for the fixtures.
-
-1. `Add a Fixture`_
-2. `Delete a Fixture`_
-3. `Update a Fixture`_
-4. `Search a Fixture`_
-
-    *Accessing Fixtures Operations*
-
-Add a Fixture
+Delete a News
 +++++++++++++
-  In order to add insert a fixture to fixtures table, week is written which are fixtures' attributes, and press add button. Fixture would be added.
-.. _genre_add:
-   .. figure:: addfixture.png
+   In order to remove a news from athletes table, the selection of the news from checkbox and pressing the delete button would realize the deletion operation from the table.
+
+.. figure:: images/add/New.png
        :scale: 80 %
        :align: center
 
-   .. figure:: addfixture1.png
-       :scale: 80 %
-       :align: center
+       *add a News*
 
-       *Adding a fixture*
+Update a News
++++++++++++++
+    In order to update the already presented news on the table, id, title and content are written in text boxes after that, pressing the update button simply would realize the update operation on the table.
 
-Delete a Fixture
+.. figure:: images/update/New.png
+    :scale: 80 %
+    :align: center
+
+    *update a News*
+
+Search a News
++++++++++++++
+    In order to realize search operation, the textbox is filled and search button is pressed.
+
+.. figure:: images/search/New.png
+    :scale: 80 %
+    :align: center
+
+    *searching a Athlete*
+
+
+Comments Operations
+*******************
+There are distance id, id_new, article and names as attribute in comments table. There are add, delete, search and update options.
+
+1. `Add a Comment`_
+2. `Delete a Comment`_
+3. `Update a Comment`_
+4. `Search a Comment`_
+
+    *Accessing Comments Operations*
+
+Add a Comment
++++++++++++++
+  In order to add insert a comment to comments table, name and article should be written and the insert button should be clicked.
+
+.. figure:: images/delete/Comment.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+.. figure:: images/ExtraAdd/EklendiComment1.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+.. figure:: images/ExtraAdd/EklendiComment2.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+    *Delete a Comment*
+
+Delete a Comment
 ++++++++++++++++
-   In order to remove a fixture from fixtures table, the selection of the fixture and pressing the delete button would realize the deletion operation from the table.
-.. _genre_delete:
-   .. figure:: deletefixture.png
+   In order to remove a comment from statistics table, the selection of the comment from checkbox and pressing the delete button would realize the deletion operation from the table.
+
+.. figure:: images/add/Comment.png
        :scale: 80 %
        :align: center
 
-   .. figure:: deletefixture1.png
-       :scale: 80 %
-       :align: center
+       *add a Comment*
 
-       *Deleting a fixture*
-
-Update a Fixture
+Update a Comment
 ++++++++++++++++
-    In order to update the already presented fixture on the table, id and week are written in text boxes after that, pressing the update button simply would realize the update operation on the table.
-.. _genre_update:
-   .. figure:: updatefixture.png
-       :scale: 80 %
-       :align: center
+    In order to update the already presented comment on the table, id, name and article should be written.
 
-   .. figure:: updatefixture1.png
-       :scale: 80 %
-       :align: center
+.. figure:: images/update/Comment.png
+    :scale: 80 %
+    :align: center
 
-       *Updating a fixture*
+    *update a Comment*
 
-Search a Fixture
+Search a Comment
 ++++++++++++++++
-    In order to realize search operation, the textbox is filled and search button is pressed. Then the fixture which is searched will be appeared separately simply.
-.. _genre_search:
-   .. figure:: searchfixture.png
-       :scale: 80 %
-       :align: center
+    In order to realize search operation, the textbox is filled and search button is pressed. Then the statistic which is searched will be appeared separately simply.
 
-   .. figure:: searchfixture1.png
-       :scale: 80 %
-       :align: center
+.. figure:: images/search/Comment.png
+    :scale: 80 %
+    :align: center
 
-       *Searching a fixture*
-
-
-Parts Implemented by Member Name
-================================
+    *searching a Comment*
