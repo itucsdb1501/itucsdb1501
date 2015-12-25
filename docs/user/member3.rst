@@ -16,19 +16,26 @@ Teams Operations
 Add a Tema
 ++++++++++
   In order to add insert a team to teams table, country is written which are Teams' attributes, and press add button. Team would be added.
-.. _genre_team:
-   .. figure:: images/add/Team.png
-       :scale: 80 %
-       :align: center
-       :alt: map to buried treas
+
+.. figure:: images/add/Team.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+*Delete a Feedback*
+   After deleting a feedback:
+
+.. figure:: images/ExtraAdd/EklendiTeam.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
+
+.. figure:: images/ExtraAdd/EklendiTeam.png
+   :scale: 70%
+   :alt: map to buried treas
+   :align: center
 
 
-   .. figure:: addticket1.png
-       :scale: 80 %
-       :align: center
-       :alt: map to buried treas
-
-        *Adding a team*
 
 Delete a Ticket
 +++++++++++++++
